@@ -5,13 +5,13 @@ from typing import Optional
 
 import cv2
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 
 from app.db.repositories import get_repository
 from app.geometry import parse_calibration_json
 from app.model_clients import ModelClientError, get_model_client, get_model_provider_name
 from app.renderers.opencv_renderer import render_annotation
-from app.schemas import AnnotationMode, AnnotationResponse, JobStatus, ReviewEventType, ReviewRequest, ReviewResponse
+from app.schemas import AnnotationMode, AnnotationResponse, ApprovedFieldReferenceSummary, JobStatus, ReviewEventType, ReviewRequest, ReviewResponse
 from app.snapper import snap_annotation_spec
 from app.storage.local_storage import LocalStorage
 
@@ -89,6 +89,8 @@ async def create_annotation(
             "_id": job_id,
             "image_asset_id": image_asset["_id"],
             "calibration_payload_id": calibration_asset["_id"] if calibration_asset else None,
+            "project_id": project_id,
+            "wall_id": wall_id,
             "annotation_mode": annotation_mode.value,
             "model_provider": get_model_provider_name(),
             "status": JobStatus.rendered.value,
@@ -132,6 +134,36 @@ def get_annotation_image(job_id: str) -> FileResponse:
     return FileResponse(Path(rendered_path), media_type="image/jpeg")
 
 
+@app.get("/api/v1/field-references/approved", response_model=list[ApprovedFieldReferenceSummary])
+def list_approved_field_references() -> list[ApprovedFieldReferenceSummary]:
+    repository = get_repository()
+    references = repository.list_approved_field_references()
+    return [
+        ApprovedFieldReferenceSummary(
+            id=reference["_id"],
+            job_id=reference["job_id"],
+            annotation_mode=reference["annotation_mode"],
+            project_id=reference.get("project_id"),
+            wall_id=reference.get("wall_id"),
+            reviewer_id=reference.get("reviewer_id"),
+            notes=reference.get("notes"),
+            approved_at=reference["approved_at"],
+            image_url=f"/api/v1/field-references/approved/{reference['_id']}/image",
+        )
+        for reference in references
+    ]
+
+
+@app.get("/api/v1/field-references/approved/{reference_id}/image")
+def get_approved_field_reference_image(reference_id: str) -> Response:
+    repository = get_repository()
+    image = repository.get_approved_field_reference_image(reference_id)
+    if not image:
+        raise HTTPException(status_code=404, detail="Approved field reference not found")
+    data, content_type = image
+    return Response(content=data, media_type=content_type)
+
+
 @app.post("/api/v1/annotations/{job_id}/review", response_model=ReviewResponse)
 def review_annotation(job_id: str, payload: ReviewRequest) -> ReviewResponse:
     repository = get_repository()
@@ -151,6 +183,8 @@ def review_annotation(job_id: str, payload: ReviewRequest) -> ReviewResponse:
         }
     )
     repository.update_annotation_job_status(job_id, status)
+    if status == JobStatus.approved_for_field_reference:
+        repository.save_approved_field_reference(job_id, payload.reviewer_id, payload.notes)
     return ReviewResponse(job_id=job_id, status=status, event_type=payload.event_type)
 
 

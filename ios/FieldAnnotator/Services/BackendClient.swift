@@ -75,6 +75,13 @@ final class BackendClient {
         return image
     }
 
+    func fetchApprovedFieldReferences() async throws -> [ApprovedFieldReference] {
+        let url = baseURL.appending(path: "/api/v1/field-references/approved")
+        let (data, response) = try await URLSession.shared.data(from: url)
+        try validate(response: response, data: data)
+        return try JSONDecoder().decode([ApprovedFieldReference].self, from: data)
+    }
+
     func sendReview(jobId: String, eventType: String, reviewerId: String, notes: String?) async throws -> ReviewResponse {
         let url = baseURL.appending(path: "/api/v1/annotations/\(jobId)/review")
         var request = URLRequest(url: url)
