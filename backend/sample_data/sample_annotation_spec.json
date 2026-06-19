@@ -1,0 +1,39 @@
+{
+  "annotation_mode": "electrical_lines",
+  "electrical_lines": [
+    {
+      "points": [
+        { "x": 0.14, "y": 0.62 },
+        { "x": 0.30, "y": 0.49 },
+        { "x": 0.50, "y": 0.45 },
+        { "x": 0.70, "y": 0.49 },
+        { "x": 0.86, "y": 0.62 }
+      ],
+      "color": "red",
+      "thickness": 6
+    }
+  ],
+  "outlet_boxes": [
+    { "center": { "x": 0.18, "y": 0.67 }, "label": "O1" },
+    { "center": { "x": 0.38, "y": 0.59 }, "label": "O2" },
+    { "center": { "x": 0.62, "y": 0.59 }, "label": "O3" },
+    { "center": { "x": 0.82, "y": 0.67 }, "label": "O4" }
+  ],
+  "stud_centerlines": [],
+  "floor_layout_lines": [],
+  "labels": [
+    {
+      "anchor": { "x": 0.34, "y": 0.38 },
+      "text": "PROPOSED CABLE ROUTE"
+    }
+  ],
+  "warning_badges": [
+    {
+      "anchor": { "x": 0.30, "y": 0.09 },
+      "text": "VERIFY BEFORE INSTALLATION"
+    }
+  ],
+  "warnings": [
+    "Field reference only. Verify dimensions and code requirements before installation."
+  ]
+}

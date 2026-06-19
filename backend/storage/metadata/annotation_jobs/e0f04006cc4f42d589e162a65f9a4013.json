@@ -1,0 +1,14 @@
+{
+  "_id": "e0f04006cc4f42d589e162a65f9a4013",
+  "image_asset_id": "e0f04006cc4f42d589e162a65f9a4013-original",
+  "calibration_payload_id": null,
+  "annotation_mode": "field_notes",
+  "model_provider": "mock",
+  "status": "rendered",
+  "warnings": [
+    "Field notes are for review and coordination only.",
+    "Low confidence model output; verify all markings in the field."
+  ],
+  "completed_at": null,
+  "created_at": "2026-06-19T19:33:39.807549+00:00"
+}

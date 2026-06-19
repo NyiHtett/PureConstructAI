@@ -1,0 +1,14 @@
+{
+  "_id": "5f5e795cf37e49e3b0b7744c65b68e24",
+  "image_asset_id": "5f5e795cf37e49e3b0b7744c65b68e24-original",
+  "calibration_payload_id": null,
+  "annotation_mode": "stud_locations",
+  "model_provider": "mock",
+  "status": "rendered",
+  "warnings": [
+    "Stud markings are approximate until calibrated.",
+    "No stud centerlines provided; stud locations are approximate."
+  ],
+  "completed_at": null,
+  "created_at": "2026-06-19T19:25:54.243439+00:00"
+}

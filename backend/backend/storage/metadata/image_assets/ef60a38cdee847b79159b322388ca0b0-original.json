@@ -1,0 +1,12 @@
+{
+  "_id": "ef60a38cdee847b79159b322388ca0b0-original",
+  "project_id": "test-project",
+  "wall_id": "test-wall",
+  "original_filename": "wall.jpg",
+  "width": 1280,
+  "height": 840,
+  "content_type": "image/jpeg",
+  "storage_backend": "local",
+  "local_path": "backend/storage/originals/ef60a38cdee847b79159b322388ca0b0.jpg",
+  "created_at": "2026-06-19T19:27:16.999296+00:00"
+}
