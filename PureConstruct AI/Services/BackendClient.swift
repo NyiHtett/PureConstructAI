@@ -60,7 +60,7 @@ final class BackendClient {
 
         let (data, response) = try await URLSession.shared.data(for: request)
         try validate(response: response, data: data)
-        return try JSONDecoder.snakeCaseDecoder.decode(AnnotationResponse.self, from: data)
+        return try JSONDecoder().decode(AnnotationResponse.self, from: data)
     }
 
     func fetchAnnotatedImage(path: String) async throws -> UIImage {
@@ -87,7 +87,7 @@ final class BackendClient {
         ])
         let (data, response) = try await URLSession.shared.data(for: request)
         try validate(response: response, data: data)
-        return try JSONDecoder.snakeCaseDecoder.decode(ReviewResponse.self, from: data)
+        return try JSONDecoder().decode(ReviewResponse.self, from: data)
     }
 
     private func multipartBody(boundary: String, imageData: Data, fields: [String: String]) throws -> Data {
@@ -116,13 +116,5 @@ final class BackendClient {
 private extension Data {
     mutating func append(_ string: String) {
         append(Data(string.utf8))
-    }
-}
-
-private extension JSONDecoder {
-    static var snakeCaseDecoder: JSONDecoder {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
     }
 }
