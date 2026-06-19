@@ -3,58 +3,20 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            PureConstructDashboardView()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
-
             HomeView()
                 .tabItem {
-                    Label("Annotate", systemImage: "viewfinder")
+                    Label("Analyze", systemImage: "camera.metering.matrix")
                 }
 
             FieldReferenceView()
                 .tabItem {
-                    Label("Field Ref", systemImage: "checklist")
-                }
-        }
-    }
-}
-
-private struct PureConstructDashboardView: View {
-    @State private var showAnnotation = false
-
-    var body: some View {
-        NavigationStack {
-            List {
-                Section {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("PureConstruct AI")
-                            .font(.largeTitle.bold())
-                        Text("Construction field tools for photo annotation, review, and crew communication.")
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.vertical, 8)
+                    Label("Reports", systemImage: "doc.text.magnifyingglass")
                 }
 
-                Section("Tools") {
-                    NavigationLink {
-                        HomeView()
-                    } label: {
-                        Label("Field Photo Annotation", systemImage: "viewfinder.rectangular")
-                    }
-
-                    Label("Inventory and reports can remain here as separate modules.", systemImage: "shippingbox")
-                        .foregroundStyle(.secondary)
+            InventoryPlaceholderView()
+                .tabItem {
+                    Label("Inventory", systemImage: "shippingbox")
                 }
-
-                Section("Current Backend") {
-                    LabeledContent("Server", value: "192.168.1.173:8002")
-                    LabeledContent("Model", value: "OpenInfer")
-                    LabeledContent("Renderer", value: "OpenCV")
-                }
-            }
-            .navigationTitle("PureConstruct")
         }
     }
 }
@@ -62,20 +24,55 @@ private struct PureConstructDashboardView: View {
 private struct FieldReferenceView: View {
     var body: some View {
         NavigationStack {
-            List {
-                Section("Review Statuses") {
-                    Label("Rendered", systemImage: "photo")
-                    Label("Approved for Field Reference", systemImage: "checkmark.seal")
-                    Label("Rejected", systemImage: "xmark.seal")
-                    Label("Needs Closer Photo", systemImage: "camera.macro")
-                }
+            ScrollView {
+                VStack(spacing: 16) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        SectionTitle("Review Statuses", symbol: "checklist")
+                        status("Rendered", "photo")
+                        status("Approved for Field Reference", "checkmark.seal")
+                        status("Rejected", "xmark.seal")
+                        status("Needs Closer Photo", "camera.macro")
+                    }
+                    .constructionPanel()
 
-                Section("Field Use") {
                     Text("Rendered annotations are field markup only. They are not code approval and must be verified before installation.")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(ConstructPalette.muted)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .constructionPanel()
                 }
+                .padding(18)
             }
+            .constructionBackground()
             .navigationTitle("Field Reference")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    private func status(_ title: String, _ symbol: String) -> some View {
+        Label(title, systemImage: symbol)
+            .foregroundStyle(ConstructPalette.paper)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(10)
+            .background(ConstructPalette.panel, in: RoundedRectangle(cornerRadius: 7))
+    }
+}
+
+private struct InventoryPlaceholderView: View {
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12) {
+                    SectionTitle("Inventory", symbol: "shippingbox")
+                    Label("Material matching will live here.", systemImage: "shippingbox")
+                    Label("Annotation now runs from Analyze.", systemImage: "viewfinder")
+                }
+                .foregroundStyle(ConstructPalette.paper)
+                .constructionPanel()
+                .padding(18)
+            }
+            .constructionBackground()
+            .navigationTitle("Inventory")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

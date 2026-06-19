@@ -1,0 +1,477 @@
+{
+  "_id": "2735da1c91ee48ffb429679bd7a5e281-spec",
+  "annotation_job_id": "2735da1c91ee48ffb429679bd7a5e281",
+  "raw_model_output": {
+    "annotation_mode": "flooring_pattern",
+    "electrical_lines": [],
+    "outlet_boxes": [],
+    "stud_centerlines": [],
+    "floor_layout_lines": [
+      {
+        "points": [
+          {
+            "x": 0.05213675213675213,
+            "y": 0.8012887495646117,
+            "label": null
+          },
+          {
+            "x": 0.5367521367521367,
+            "y": 0.8790781376988273,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.5068376068376068,
+            "y": 0.29739928015790085,
+            "label": null
+          },
+          {
+            "x": 0.8606837606837606,
+            "y": 0.5296064089167538,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.05213675213675213,
+            "y": 0.8012887495646117,
+            "label": null
+          },
+          {
+            "x": 0.5068376068376068,
+            "y": 0.29739928015790085,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.8606837606837606,
+            "y": 0.5296064089167538,
+            "label": null
+          },
+          {
+            "x": 0.5367521367521367,
+            "y": 0.8790781376988273,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.05213675213675213,
+            "y": 0.8012887495646117,
+            "label": null
+          },
+          {
+            "x": 0.5367521367521367,
+            "y": 0.8790781376988273,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.5068376068376068,
+            "y": 0.29739928015790085,
+            "label": null
+          },
+          {
+            "x": 0.8606837606837606,
+            "y": 0.5296064089167538,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      }
+    ],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.2944444444444444,
+          "y": 0.5493155694880878,
+          "label": null
+        },
+        "text": "STARTER LINE"
+      },
+      {
+        "anchor": {
+          "x": 0.6837606837606838,
+          "y": 0.6887147335423197,
+          "label": null
+        },
+        "text": "FLOORING DIRECTION"
+      },
+      {
+        "anchor": {
+          "x": 0.4538461538461538,
+          "y": 0.7513061651097179,
+          "label": null
+        },
+        "text": "FIELD VERIFY"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.9135683760683762,
+          "y": 0.8412887495646117,
+          "label": null
+        },
+        "text": "ESTIMATED PLANE"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "Field layout must be verified before installation."
+    ]
+  },
+  "validated_spec": {
+    "annotation_mode": "flooring_pattern",
+    "electrical_lines": [],
+    "outlet_boxes": [],
+    "stud_centerlines": [],
+    "floor_layout_lines": [
+      {
+        "points": [
+          {
+            "x": 0.05213675213675213,
+            "y": 0.8012887495646117,
+            "label": null
+          },
+          {
+            "x": 0.5367521367521367,
+            "y": 0.8790781376988273,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.5068376068376068,
+            "y": 0.29739928015790085,
+            "label": null
+          },
+          {
+            "x": 0.8606837606837606,
+            "y": 0.5296064089167538,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.05213675213675213,
+            "y": 0.8012887495646117,
+            "label": null
+          },
+          {
+            "x": 0.5068376068376068,
+            "y": 0.29739928015790085,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.8606837606837606,
+            "y": 0.5296064089167538,
+            "label": null
+          },
+          {
+            "x": 0.5367521367521367,
+            "y": 0.8790781376988273,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.05213675213675213,
+            "y": 0.8012887495646117,
+            "label": null
+          },
+          {
+            "x": 0.5367521367521367,
+            "y": 0.8790781376988273,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.5068376068376068,
+            "y": 0.29739928015790085,
+            "label": null
+          },
+          {
+            "x": 0.8606837606837606,
+            "y": 0.5296064089167538,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      }
+    ],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.2944444444444444,
+          "y": 0.5493155694880878,
+          "label": null
+        },
+        "text": "STARTER LINE"
+      },
+      {
+        "anchor": {
+          "x": 0.6837606837606838,
+          "y": 0.6887147335423197,
+          "label": null
+        },
+        "text": "FLOORING DIRECTION"
+      },
+      {
+        "anchor": {
+          "x": 0.4538461538461538,
+          "y": 0.7513061651097179,
+          "label": null
+        },
+        "text": "FIELD VERIFY"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.9135683760683762,
+          "y": 0.8412887495646117,
+          "label": null
+        },
+        "text": "ESTIMATED PLANE"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "Field layout must be verified before installation."
+    ]
+  },
+  "snapped_spec": {
+    "annotation_mode": "flooring_pattern",
+    "electrical_lines": [],
+    "outlet_boxes": [],
+    "stud_centerlines": [],
+    "floor_layout_lines": [
+      {
+        "points": [
+          {
+            "x": 0.43105413105413104,
+            "y": 0.38138085839235264,
+            "label": null
+          },
+          {
+            "x": 0.8066951566951567,
+            "y": 0.5878516970470994,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.35527065527065527,
+            "y": 0.46536243662680443,
+            "label": null
+          },
+          {
+            "x": 0.7527065527065526,
+            "y": 0.646096985177445,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.2794871794871795,
+            "y": 0.5493440148612563,
+            "label": null
+          },
+          {
+            "x": 0.6987179487179487,
+            "y": 0.7043422733077905,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.20370370370370372,
+            "y": 0.633325593095708,
+            "label": null
+          },
+          {
+            "x": 0.6447293447293447,
+            "y": 0.7625875614381361,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.1279202279202279,
+            "y": 0.71730717133016,
+            "label": null
+          },
+          {
+            "x": 0.5907407407407407,
+            "y": 0.8208328495684817,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.5952991452991453,
+            "y": 0.3554510623476141,
+            "label": null
+          },
+          {
+            "x": 0.17329059829059829,
+            "y": 0.8207360965981656,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.6837606837606838,
+            "y": 0.41350284453732733,
+            "label": null
+          },
+          {
+            "x": 0.29444444444444445,
+            "y": 0.8401834436317195,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.7722222222222221,
+            "y": 0.47155462672704057,
+            "label": null
+          },
+          {
+            "x": 0.41559829059829057,
+            "y": 0.8596307906652734,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      }
+    ],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.2944444444444444,
+          "y": 0.5493155694880878,
+          "label": null
+        },
+        "text": "STARTER LINE"
+      },
+      {
+        "anchor": {
+          "x": 0.6837606837606838,
+          "y": 0.6887147335423197,
+          "label": null
+        },
+        "text": "FLOORING DIRECTION"
+      },
+      {
+        "anchor": {
+          "x": 0.4538461538461538,
+          "y": 0.7513061651097179,
+          "label": null
+        },
+        "text": "FIELD VERIFY"
+      },
+      {
+        "anchor": {
+          "x": 0.5068376068376068,
+          "y": 0.29739928015790085,
+          "label": "front_left"
+        },
+        "text": "CALIBRATED FLOOR LAYOUT"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.9135683760683762,
+          "y": 0.8412887495646117,
+          "label": null
+        },
+        "text": "ESTIMATED PLANE"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "Field layout must be verified before installation."
+    ]
+  },
+  "created_at": "2026-06-19T20:52:55.504176+00:00"
+}

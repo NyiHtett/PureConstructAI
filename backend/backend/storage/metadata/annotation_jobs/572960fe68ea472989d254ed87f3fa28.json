@@ -1,0 +1,13 @@
+{
+  "_id": "572960fe68ea472989d254ed87f3fa28",
+  "image_asset_id": "572960fe68ea472989d254ed87f3fa28-original",
+  "calibration_payload_id": "572960fe68ea472989d254ed87f3fa28-calibration",
+  "annotation_mode": "electrical_lines",
+  "model_provider": "openinfer",
+  "status": "rendered",
+  "warnings": [
+    "This is field markup only and not code approval."
+  ],
+  "completed_at": null,
+  "created_at": "2026-06-19T20:50:05.656443+00:00"
+}

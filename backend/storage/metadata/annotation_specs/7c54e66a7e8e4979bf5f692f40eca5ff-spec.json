@@ -1,0 +1,215 @@
+{
+  "_id": "7c54e66a7e8e4979bf5f692f40eca5ff-spec",
+  "annotation_job_id": "7c54e66a7e8e4979bf5f692f40eca5ff",
+  "raw_model_output": {
+    "annotation_mode": "field_notes",
+    "electrical_lines": [],
+    "outlet_boxes": [],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.11,
+          "y": 0.09,
+          "label": null
+        },
+        "text": "FIELD NOTE"
+      },
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.09,
+          "label": null
+        },
+        "text": "DO NOT TREAT AS CODE COMPLIANCE"
+      },
+      {
+        "anchor": {
+          "x": 0.08,
+          "y": 0.82,
+          "label": null
+        },
+        "text": "LOW CONFIDENCE - VERIFY"
+      }
+    ],
+    "arrows": [
+      {
+        "start": {
+          "x": 0.24,
+          "y": 0.24,
+          "label": null
+        },
+        "end": {
+          "x": 0.36,
+          "y": 0.42,
+          "label": null
+        },
+        "label": "CHECK BLOCKING",
+        "color": "yellow",
+        "thickness": 4
+      },
+      {
+        "start": {
+          "x": 0.74,
+          "y": 0.22,
+          "label": null
+        },
+        "end": {
+          "x": 0.64,
+          "y": 0.48,
+          "label": null
+        },
+        "label": "PHOTO DETAIL NEEDED",
+        "color": "yellow",
+        "thickness": 4
+      }
+    ],
+    "warnings": [
+      "Field notes are for review and coordination only.",
+      "Low confidence model output; verify all markings in the field."
+    ]
+  },
+  "validated_spec": {
+    "annotation_mode": "field_notes",
+    "electrical_lines": [],
+    "outlet_boxes": [],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.11,
+          "y": 0.09,
+          "label": null
+        },
+        "text": "FIELD NOTE"
+      },
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.09,
+          "label": null
+        },
+        "text": "DO NOT TREAT AS CODE COMPLIANCE"
+      },
+      {
+        "anchor": {
+          "x": 0.08,
+          "y": 0.82,
+          "label": null
+        },
+        "text": "LOW CONFIDENCE - VERIFY"
+      }
+    ],
+    "arrows": [
+      {
+        "start": {
+          "x": 0.24,
+          "y": 0.24,
+          "label": null
+        },
+        "end": {
+          "x": 0.36,
+          "y": 0.42,
+          "label": null
+        },
+        "label": "CHECK BLOCKING",
+        "color": "yellow",
+        "thickness": 4
+      },
+      {
+        "start": {
+          "x": 0.74,
+          "y": 0.22,
+          "label": null
+        },
+        "end": {
+          "x": 0.64,
+          "y": 0.48,
+          "label": null
+        },
+        "label": "PHOTO DETAIL NEEDED",
+        "color": "yellow",
+        "thickness": 4
+      }
+    ],
+    "warnings": [
+      "Field notes are for review and coordination only.",
+      "Low confidence model output; verify all markings in the field."
+    ]
+  },
+  "snapped_spec": {
+    "annotation_mode": "field_notes",
+    "electrical_lines": [],
+    "outlet_boxes": [],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.11,
+          "y": 0.09,
+          "label": null
+        },
+        "text": "FIELD NOTE"
+      },
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.09,
+          "label": null
+        },
+        "text": "DO NOT TREAT AS CODE COMPLIANCE"
+      },
+      {
+        "anchor": {
+          "x": 0.08,
+          "y": 0.82,
+          "label": null
+        },
+        "text": "LOW CONFIDENCE - VERIFY"
+      }
+    ],
+    "arrows": [
+      {
+        "start": {
+          "x": 0.24,
+          "y": 0.24,
+          "label": null
+        },
+        "end": {
+          "x": 0.36,
+          "y": 0.42,
+          "label": null
+        },
+        "label": "CHECK BLOCKING",
+        "color": "yellow",
+        "thickness": 4
+      },
+      {
+        "start": {
+          "x": 0.74,
+          "y": 0.22,
+          "label": null
+        },
+        "end": {
+          "x": 0.64,
+          "y": 0.48,
+          "label": null
+        },
+        "label": "PHOTO DETAIL NEEDED",
+        "color": "yellow",
+        "thickness": 4
+      }
+    ],
+    "warnings": [
+      "Field notes are for review and coordination only.",
+      "Low confidence model output; verify all markings in the field."
+    ]
+  },
+  "created_at": "2026-06-19T20:47:11.016292+00:00"
+}
