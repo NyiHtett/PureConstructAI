@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Mapping, Tuple
+from typing import Mapping, Sequence, Tuple
 
 import cv2
 import numpy as np
@@ -55,6 +55,22 @@ def _draw_text_with_background(
     scale: float = 0.62,
     thickness: int = 2,
 ) -> None:
+    origin, top_left, bottom_right, _ = _text_background_geometry(
+        image, text, origin, scale=scale, thickness=thickness
+    )
+    x, y = origin
+    cv2.rectangle(image, top_left, bottom_right, background, thickness=-1)
+    cv2.rectangle(image, top_left, bottom_right, COLORS["black"], thickness=1)
+    cv2.putText(image, text, (x + 9, y), cv2.FONT_HERSHEY_SIMPLEX, scale, foreground, thickness, cv2.LINE_AA)
+
+
+def _text_background_geometry(
+    image: np.ndarray,
+    text: str,
+    origin: tuple[int, int],
+    scale: float = 0.62,
+    thickness: int = 2,
+) -> tuple[tuple[int, int], tuple[int, int], tuple[int, int], tuple[int, int]]:
     font = cv2.FONT_HERSHEY_SIMPLEX
     text_size, baseline = cv2.getTextSize(text, font, scale, thickness)
     x, y = origin
@@ -66,9 +82,102 @@ def _draw_text_with_background(
     y = min(max(y, text_size[1] + pad_y), max(max_y, text_size[1] + pad_y))
     top_left = (x, y - text_size[1] - pad_y)
     bottom_right = (x + text_size[0] + (pad_x * 2), y + baseline + pad_y)
-    cv2.rectangle(image, top_left, bottom_right, background, thickness=-1)
-    cv2.rectangle(image, top_left, bottom_right, COLORS["black"], thickness=1)
-    cv2.putText(image, text, (x + pad_x, y), font, scale, foreground, thickness, cv2.LINE_AA)
+    return (x, y), top_left, bottom_right, text_size
+
+
+def _rect_hits_polyline(
+    top_left: tuple[int, int],
+    bottom_right: tuple[int, int],
+    polyline: np.ndarray,
+    margin: int = 10,
+) -> bool:
+    left = max(top_left[0] - margin, 0)
+    top = max(top_left[1] - margin, 0)
+    right = bottom_right[0] + margin
+    bottom = bottom_right[1] + margin
+    rect = (left, top, max(right - left, 1), max(bottom - top, 1))
+
+    for point in polyline:
+        x, y = int(point[0]), int(point[1])
+        if left <= x <= right and top <= y <= bottom:
+            return True
+
+    for start, end in zip(polyline[:-1], polyline[1:]):
+        clipped, _, _ = cv2.clipLine(rect, tuple(map(int, start)), tuple(map(int, end)))
+        if clipped:
+            return True
+    return False
+
+
+def _choose_label_origin(
+    image: np.ndarray,
+    text: str,
+    anchor: tuple[int, int],
+    avoid_polylines: Sequence[np.ndarray],
+    scale: float = 0.62,
+    thickness: int = 2,
+) -> tuple[tuple[int, int], tuple[int, int], tuple[int, int]]:
+    if not avoid_polylines:
+        origin, top_left, bottom_right, _ = _text_background_geometry(
+            image, text, anchor, scale=scale, thickness=thickness
+        )
+        return origin, top_left, bottom_right
+
+    x, y = anchor
+    candidates = [
+        (x + 14, y - 28),
+        (x + 14, y + 52),
+        (x - 230, y - 28),
+        (x - 230, y + 52),
+        (x + 34, y + 12),
+        (x - 230, y + 12),
+        (x + 14, y - 72),
+        (x + 14, y + 92),
+    ]
+
+    best_origin: tuple[int, int] | None = None
+    best_top_left = (0, 0)
+    best_bottom_right = (0, 0)
+    best_score = float("inf")
+    for candidate in candidates:
+        origin, top_left, bottom_right, _ = _text_background_geometry(
+            image, text, candidate, scale=scale, thickness=thickness
+        )
+        intersects = any(
+            _rect_hits_polyline(top_left, bottom_right, polyline) for polyline in avoid_polylines
+        )
+        center_x = (top_left[0] + bottom_right[0]) / 2
+        center_y = (top_left[1] + bottom_right[1]) / 2
+        distance = ((center_x - x) ** 2 + (center_y - y) ** 2) ** 0.5
+        score = distance + (10000 if intersects else 0)
+        if score < best_score:
+            best_score = score
+            best_origin = origin
+            best_top_left = top_left
+            best_bottom_right = bottom_right
+
+    if best_origin is None:
+        best_origin, best_top_left, best_bottom_right, _ = _text_background_geometry(
+            image, text, anchor, scale=scale, thickness=thickness
+        )
+    return best_origin, best_top_left, best_bottom_right
+
+
+def _draw_leader_to_label(
+    image: np.ndarray,
+    anchor: tuple[int, int],
+    top_left: tuple[int, int],
+    bottom_right: tuple[int, int],
+) -> None:
+    label_center = ((top_left[0] + bottom_right[0]) // 2, (top_left[1] + bottom_right[1]) // 2)
+    if abs(label_center[0] - anchor[0]) < 18 and abs(label_center[1] - anchor[1]) < 18:
+        return
+    target = (
+        min(max(anchor[0], top_left[0]), bottom_right[0]),
+        min(max(anchor[1], top_left[1]), bottom_right[1]),
+    )
+    cv2.line(image, anchor, target, COLORS["white"], 3, cv2.LINE_AA)
+    cv2.line(image, anchor, target, COLORS["black"], 1, cv2.LINE_AA)
 
 
 def draw_electrical_line(image: np.ndarray, item: ElectricalLineItem) -> None:
@@ -131,10 +240,18 @@ def draw_floor_layout_line(image: np.ndarray, item: FloorLayoutLineItem) -> None
     cv2.addWeighted(overlay, 0.72, image, 0.28, 0.0, dst=image)
 
 
-def draw_label(image: np.ndarray, item: LabelItem) -> None:
+def draw_label(
+    image: np.ndarray,
+    item: LabelItem,
+    avoid_polylines: Sequence[np.ndarray] | None = None,
+) -> None:
     height, width = image.shape[:2]
     anchor = norm_to_px(item.anchor, width, height)
-    _draw_text_with_background(image, item.text, anchor, COLORS["black"])
+    avoid_polylines = avoid_polylines or []
+    origin, top_left, bottom_right = _choose_label_origin(image, item.text, anchor, avoid_polylines)
+    if avoid_polylines:
+        _draw_leader_to_label(image, anchor, top_left, bottom_right)
+    _draw_text_with_background(image, item.text, origin, COLORS["black"])
 
 
 def draw_warning_badge(image: np.ndarray, item: WarningBadgeItem) -> None:
@@ -168,8 +285,12 @@ def render_annotation(input_image_path: str, spec: AnnotationSpec | dict, output
         draw_electrical_line(image, item)
     for item in parsed_spec.outlet_boxes:
         draw_outlet_box(image, item)
+    electrical_polylines = [
+        _polyline_points(item.points, image.shape[1], image.shape[0])
+        for item in parsed_spec.electrical_lines
+    ]
     for item in parsed_spec.labels:
-        draw_label(image, item)
+        draw_label(image, item, electrical_polylines)
     for item in parsed_spec.warning_badges:
         draw_warning_badge(image, item)
     for item in parsed_spec.arrows:

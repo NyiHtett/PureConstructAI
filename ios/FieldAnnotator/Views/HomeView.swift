@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @AppStorage(BackendSettings.baseURLKey) private var backendBaseURL = BackendSettings.defaultBaseURLString
     @State private var projectId = ""
     @State private var wallId = ""
     @State private var startNewAnnotation = false
@@ -74,9 +75,30 @@ struct HomeView: View {
                 metric("MODEL", "OpenInfer")
                 metric("RENDERER", "OpenCV")
             }
-            metric("BACKEND", "192.168.1.173:8002")
+            TextField("Backend URL", text: $backendBaseURL)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+                .keyboardType(.URL)
+                .textFieldStyle(.plain)
+                .padding(12)
+                .foregroundStyle(ConstructPalette.paper)
+                .background(ConstructPalette.panel, in: RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(backendURLIsValid ? ConstructPalette.gridLine : .red))
+
+            if !backendURLIsValid {
+                Text("Enter a full URL like http://127.0.0.1:8000")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.red)
+            }
         }
         .constructionPanel()
+    }
+
+    private var backendURLIsValid: Bool {
+        guard let url = URL(string: backendBaseURL.trimmingCharacters(in: .whitespacesAndNewlines)) else {
+            return false
+        }
+        return url.scheme?.hasPrefix("http") == true && url.host != nil
     }
 
     private func metric(_ label: String, _ value: String) -> some View {
