@@ -11,7 +11,16 @@ from app.db.repositories import get_repository
 from app.geometry import parse_calibration_json
 from app.model_clients import ModelClientError, get_model_client, get_model_provider_name
 from app.renderers.opencv_renderer import render_annotation
-from app.schemas import AnnotationMode, AnnotationResponse, ApprovedFieldReferenceSummary, JobStatus, ReviewEventType, ReviewRequest, ReviewResponse
+from app.schemas import (
+    AnnotationMode,
+    AnnotationResponse,
+    ApprovedFieldReferenceSummary,
+    JobStatus,
+    RejectedFieldReferenceSummary,
+    ReviewEventType,
+    ReviewRequest,
+    ReviewResponse,
+)
 from app.snapper import snap_annotation_spec
 from app.storage.local_storage import LocalStorage
 
@@ -164,6 +173,36 @@ def get_approved_field_reference_image(reference_id: str) -> Response:
     return Response(content=data, media_type=content_type)
 
 
+@app.get("/api/v1/field-references/rejected", response_model=list[RejectedFieldReferenceSummary])
+def list_rejected_field_references() -> list[RejectedFieldReferenceSummary]:
+    repository = get_repository()
+    references = repository.list_rejected_field_references()
+    return [
+        RejectedFieldReferenceSummary(
+            id=reference["_id"],
+            job_id=reference["job_id"],
+            annotation_mode=reference["annotation_mode"],
+            project_id=reference.get("project_id"),
+            wall_id=reference.get("wall_id"),
+            reviewer_id=reference.get("reviewer_id"),
+            notes=reference.get("notes"),
+            rejected_at=reference["rejected_at"],
+            image_url=f"/api/v1/field-references/rejected/{reference['_id']}/image",
+        )
+        for reference in references
+    ]
+
+
+@app.get("/api/v1/field-references/rejected/{reference_id}/image")
+def get_rejected_field_reference_image(reference_id: str) -> Response:
+    repository = get_repository()
+    image = repository.get_rejected_field_reference_image(reference_id)
+    if not image:
+        raise HTTPException(status_code=404, detail="Rejected field reference not found")
+    data, content_type = image
+    return Response(content=data, media_type=content_type)
+
+
 @app.post("/api/v1/annotations/{job_id}/review", response_model=ReviewResponse)
 def review_annotation(job_id: str, payload: ReviewRequest) -> ReviewResponse:
     repository = get_repository()
@@ -185,6 +224,8 @@ def review_annotation(job_id: str, payload: ReviewRequest) -> ReviewResponse:
     repository.update_annotation_job_status(job_id, status)
     if status == JobStatus.approved_for_field_reference:
         repository.save_approved_field_reference(job_id, payload.reviewer_id, payload.notes)
+    if status == JobStatus.rejected:
+        repository.save_rejected_field_reference(job_id, payload.reviewer_id, payload.notes)
     return ReviewResponse(job_id=job_id, status=status, event_type=payload.event_type)
 
 

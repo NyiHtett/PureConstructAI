@@ -49,3 +49,27 @@ struct ApprovedFieldReference: Decodable, Identifiable {
         case imageURL = "image_url"
     }
 }
+
+struct RejectedFieldReference: Decodable, Identifiable {
+    let id: String
+    let jobId: String
+    let annotationMode: AnnotationMode
+    let projectId: String?
+    let wallId: String?
+    let reviewerId: String?
+    let notes: String?
+    let rejectedAt: String
+    let imageURL: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case jobId = "job_id"
+        case annotationMode = "annotation_mode"
+        case projectId = "project_id"
+        case wallId = "wall_id"
+        case reviewerId = "reviewer_id"
+        case notes
+        case rejectedAt = "rejected_at"
+        case imageURL = "image_url"
+    }
+}
