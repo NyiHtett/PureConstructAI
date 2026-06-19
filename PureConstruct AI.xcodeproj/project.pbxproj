@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXFileReference section */
+		FC2072722FE5AF7B0085F055 /* PureConstruct AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PureConstruct AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		FC2072822FE5C9E00085F055 /* Exceptions for "PureConstruct AI" folder in "PureConstruct AI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -15,10 +19,6 @@
 			target = FC2072712FE5AF7B0085F055 /* PureConstruct AI */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileReference section */
-		FC2072722FE5AF7B0085F055 /* PureConstruct AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PureConstruct AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-/* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FC2072742FE5AF7B0085F055 /* PureConstruct AI */ = {

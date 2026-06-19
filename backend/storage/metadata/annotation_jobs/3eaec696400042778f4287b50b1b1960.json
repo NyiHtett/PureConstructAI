@@ -1,0 +1,13 @@
+{
+  "_id": "3eaec696400042778f4287b50b1b1960",
+  "image_asset_id": "3eaec696400042778f4287b50b1b1960-original",
+  "calibration_payload_id": null,
+  "annotation_mode": "field_notes",
+  "model_provider": "mock",
+  "status": "rendered",
+  "warnings": [
+    "Field notes are for review and coordination only."
+  ],
+  "completed_at": null,
+  "created_at": "2026-06-19T20:55:57.396169+00:00"
+}

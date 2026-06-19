@@ -1,0 +1,14 @@
+{
+  "_id": "f36a9444962d471a8bcfcae19d316a7c",
+  "image_asset_id": "f36a9444962d471a8bcfcae19d316a7c-original",
+  "calibration_payload_id": null,
+  "annotation_mode": "flooring_pattern",
+  "model_provider": "mock",
+  "status": "rendered",
+  "warnings": [
+    "Confirm floor plane and material direction before layout.",
+    "No floor plane provided; flooring layout is approximate."
+  ],
+  "completed_at": null,
+  "created_at": "2026-06-19T20:55:57.392032+00:00"
+}

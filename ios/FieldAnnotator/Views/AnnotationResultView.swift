@@ -18,69 +18,135 @@ struct AnnotationResultView: View {
     @State private var reviewStatus: String?
 
     var body: some View {
-        VStack(spacing: 12) {
+        ScrollView {
+            VStack(spacing: 16) {
+                viewerPanel
+
+                if isLoading {
+                    HStack {
+                        ProgressView()
+                            .tint(ConstructPalette.safetyOrange)
+                        Text("Rendering field reference")
+                            .font(.system(size: 14, weight: .bold, design: .monospaced))
+                    }
+                    .foregroundStyle(ConstructPalette.paper)
+                    .constructionPanel()
+                }
+
+                if let errorMessage {
+                    Text(errorMessage)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .constructionPanel()
+                }
+
+                if let response {
+                    warningsPanel(response.warnings)
+                    reviewPanel
+                }
+            }
+            .padding(18)
+        }
+        .constructionBackground()
+        .navigationTitle("Result")
+        .navigationBarTitleDisplayMode(.inline)
+        .task {
+            await submit()
+        }
+    }
+
+    private var viewerPanel: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            SectionTitle("Rendered Output", symbol: "photo")
             Picker("Image", selection: $showAnnotated) {
                 Text("Original").tag(false)
                 Text("Annotated").tag(true)
             }
             .pickerStyle(.segmented)
-            .padding(.horizontal)
 
-            Group {
-                if showAnnotated, let annotatedImage {
-                    Image(uiImage: annotatedImage)
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    Image(uiImage: originalImage)
-                        .resizable()
-                        .scaledToFit()
+            ZStack {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(ConstructPalette.panel)
+                    .overlay(BlueprintGrid().clipShape(RoundedRectangle(cornerRadius: 8)))
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(ConstructPalette.gridLine))
+
+                Group {
+                    if showAnnotated, let annotatedImage {
+                        Image(uiImage: annotatedImage)
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Image(uiImage: originalImage)
+                            .resizable()
+                            .scaledToFit()
+                    }
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             }
-            .frame(maxWidth: .infinity, maxHeight: 360)
+            .frame(maxWidth: .infinity, minHeight: 260, maxHeight: 380)
+        }
+        .constructionPanel()
+    }
 
-            if isLoading {
-                ProgressView("Rendering")
-            }
-
-            if let errorMessage {
-                Text(errorMessage)
-                    .foregroundStyle(.red)
-                    .font(.footnote)
-                    .padding(.horizontal)
-            }
-
-            if let response {
-                List {
-                    if !response.warnings.isEmpty {
-                        Section("Warnings") {
-                            ForEach(response.warnings, id: \.self) { warning in
-                                Text(warning)
-                            }
-                        }
-                    }
-
-                    Section("Review") {
-                        TextField("Optional notes", text: $reviewNotes, axis: .vertical)
-                            .lineLimit(1...4)
-                        HStack {
-                            Button("Approve") { sendReview("approved") }
-                            Button("Reject", role: .destructive) { sendReview("rejected") }
-                            Button("Needs Closer Photo") { sendReview("needs_closer_photo") }
-                        }
-                        if let reviewStatus {
-                            Text(reviewStatus)
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
+    private func warningsPanel(_ warnings: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            SectionTitle("Warnings", symbol: "exclamationmark.triangle")
+            if warnings.isEmpty {
+                Text("No warnings returned.")
+                    .foregroundStyle(ConstructPalette.muted)
+            } else {
+                ForEach(warnings, id: \.self) { warning in
+                    Label(warning, systemImage: "exclamationmark.circle")
+                        .font(.system(size: 14))
+                        .foregroundStyle(ConstructPalette.paper)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
-        .navigationTitle("Result")
-        .task {
-            await submit()
+        .constructionPanel()
+    }
+
+    private var reviewPanel: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            SectionTitle("Human Review", symbol: "checkmark.seal")
+            TextField("Optional review notes", text: $reviewNotes, axis: .vertical)
+                .lineLimit(1...4)
+                .textFieldStyle(.plain)
+                .padding(12)
+                .foregroundStyle(ConstructPalette.paper)
+                .background(ConstructPalette.panel, in: RoundedRectangle(cornerRadius: 8))
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(ConstructPalette.gridLine))
+
+            VStack(spacing: 8) {
+                Button { sendReview("approved") } label: {
+                    Label("Approve", systemImage: "checkmark.seal.fill")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(ConstructPalette.laserGreen)
+
+                Button { sendReview("needs_closer_photo") } label: {
+                    Label("Needs Closer Photo", systemImage: "camera.macro")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(ConstructPalette.warning)
+
+                Button(role: .destructive) { sendReview("rejected") } label: {
+                    Label("Reject", systemImage: "xmark.seal")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+            }
+
+            if let reviewStatus {
+                Text(reviewStatus.uppercased())
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .foregroundStyle(ConstructPalette.safetyOrange)
+            }
         }
+        .constructionPanel()
     }
 
     private func submit() async {
