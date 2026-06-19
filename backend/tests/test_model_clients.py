@@ -97,6 +97,67 @@ def test_items_based_semantic_plan_is_converted() -> None:
     assert spec.labels[0].text == "PROPOSED CABLE ROUTE"
 
 
+def test_mode_specific_items_are_converted() -> None:
+    stud_spec = parse_annotation_spec_json(
+        """
+        {
+          "version": "1.0",
+          "annotation_mode": "stud_locations",
+          "image_width": 984,
+          "image_height": 595,
+          "items": [
+            {
+              "id": "stud_1",
+              "type": "stud_centerline",
+              "top": {"x": 0.2, "y": 0.1},
+              "bottom": {"x": 0.2, "y": 0.9},
+              "label": "S-1",
+              "confidence": 0.8
+            }
+          ],
+          "warnings": []
+        }
+        """
+    )
+    floor_spec = parse_annotation_spec_json(
+        """
+        {
+          "version": "1.0",
+          "annotation_mode": "flooring_pattern",
+          "image_width": 984,
+          "image_height": 595,
+          "items": [
+            {
+              "id": "starter",
+              "type": "floor_layout_line",
+              "start": {"x": 0.1, "y": 0.7},
+              "end": {"x": 0.9, "y": 0.7},
+              "label": "STARTER LINE",
+              "confidence": 0.8
+            },
+            {
+              "id": "grid",
+              "type": "floor_grid",
+              "lines": [
+                {
+                  "start": {"x": 0.2, "y": 0.7},
+                  "end": {"x": 0.2, "y": 0.95}
+                }
+              ],
+              "label": "VERIFY LAYOUT",
+              "confidence": 0.7
+            }
+          ],
+          "warnings": []
+        }
+        """
+    )
+
+    assert stud_spec.stud_centerlines[0].label == "S-1"
+    assert floor_spec.floor_layout_lines[0].points[1].x == 0.9
+    assert floor_spec.floor_layout_lines[1].points[0].x == 0.2
+
+
 def test_low_confidence_spec_has_warning_badge(tmp_path: Path) -> None:
     image_path = tmp_path / "wall.jpg"
     _write_image(image_path)

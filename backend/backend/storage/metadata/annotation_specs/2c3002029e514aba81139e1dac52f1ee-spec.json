@@ -1,0 +1,272 @@
+{
+  "_id": "2c3002029e514aba81139e1dac52f1ee-spec",
+  "annotation_job_id": "2c3002029e514aba81139e1dac52f1ee",
+  "raw_model_output": {
+    "annotation_mode": "electrical_lines",
+    "electrical_lines": [
+      {
+        "points": [
+          {
+            "x": 0.05,
+            "y": 0.35,
+            "label": null
+          },
+          {
+            "x": 0.45,
+            "y": 0.35,
+            "label": null
+          }
+        ],
+        "color": "red",
+        "thickness": 5
+      }
+    ],
+    "outlet_boxes": [
+      {
+        "center": {
+          "x": 0.15,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-1"
+      },
+      {
+        "center": {
+          "x": 0.25,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-2"
+      },
+      {
+        "center": {
+          "x": 0.35,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-3"
+      },
+      {
+        "center": {
+          "x": 0.45,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-4"
+      }
+    ],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.25,
+          "y": 0.25,
+          "label": null
+        },
+        "text": "PROPOSED CABLE ROUTE"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.8,
+          "y": 0.15,
+          "label": null
+        },
+        "text": "VERIFY BEFORE INSTALLATION"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "This is field markup only and not code approval."
+    ]
+  },
+  "validated_spec": {
+    "annotation_mode": "electrical_lines",
+    "electrical_lines": [
+      {
+        "points": [
+          {
+            "x": 0.05,
+            "y": 0.35,
+            "label": null
+          },
+          {
+            "x": 0.45,
+            "y": 0.35,
+            "label": null
+          }
+        ],
+        "color": "red",
+        "thickness": 5
+      }
+    ],
+    "outlet_boxes": [
+      {
+        "center": {
+          "x": 0.15,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-1"
+      },
+      {
+        "center": {
+          "x": 0.25,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-2"
+      },
+      {
+        "center": {
+          "x": 0.35,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-3"
+      },
+      {
+        "center": {
+          "x": 0.45,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-4"
+      }
+    ],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.25,
+          "y": 0.25,
+          "label": null
+        },
+        "text": "PROPOSED CABLE ROUTE"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.8,
+          "y": 0.15,
+          "label": null
+        },
+        "text": "VERIFY BEFORE INSTALLATION"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "This is field markup only and not code approval."
+    ]
+  },
+  "snapped_spec": {
+    "annotation_mode": "electrical_lines",
+    "electrical_lines": [
+      {
+        "points": [
+          {
+            "x": 0.029914529914529912,
+            "y": 0.35777313363520263,
+            "label": null
+          },
+          {
+            "x": 0.4905982905982906,
+            "y": 0.24515267618715897,
+            "label": null
+          }
+        ],
+        "color": "red",
+        "thickness": 5
+      }
+    ],
+    "outlet_boxes": [
+      {
+        "center": {
+          "x": 0.15,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-1"
+      },
+      {
+        "center": {
+          "x": 0.25,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-2"
+      },
+      {
+        "center": {
+          "x": 0.35,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-3"
+      },
+      {
+        "center": {
+          "x": 0.45,
+          "y": 0.35,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-4"
+      }
+    ],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.25,
+          "y": 0.25,
+          "label": null
+        },
+        "text": "PROPOSED CABLE ROUTE"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.8,
+          "y": 0.15,
+          "label": null
+        },
+        "text": "VERIFY BEFORE INSTALLATION"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "This is field markup only and not code approval."
+    ]
+  },
+  "created_at": "2026-06-19T20:28:58.280715+00:00"
+}

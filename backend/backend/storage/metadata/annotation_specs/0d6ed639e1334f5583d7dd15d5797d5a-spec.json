@@ -1,0 +1,433 @@
+{
+  "_id": "0d6ed639e1334f5583d7dd15d5797d5a-spec",
+  "annotation_job_id": "0d6ed639e1334f5583d7dd15d5797d5a",
+  "raw_model_output": {
+    "annotation_mode": "electrical_lines",
+    "electrical_lines": [
+      {
+        "points": [
+          {
+            "x": 0.15,
+            "y": 0.55,
+            "label": null
+          },
+          {
+            "x": 0.85,
+            "y": 0.55,
+            "label": null
+          }
+        ],
+        "color": "red",
+        "thickness": 5
+      }
+    ],
+    "outlet_boxes": [
+      {
+        "center": {
+          "x": 0.25,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-1"
+      },
+      {
+        "center": {
+          "x": 0.45,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-2"
+      },
+      {
+        "center": {
+          "x": 0.65,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-3"
+      },
+      {
+        "center": {
+          "x": 0.8,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-4"
+      }
+    ],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.85,
+          "y": 0.55,
+          "label": null
+        },
+        "text": "PROPOSED CABLE ROUTE"
+      },
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.45,
+          "label": null
+        },
+        "text": "HORIZONTAL RUN"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.3,
+          "label": null
+        },
+        "text": "VERIFY BEFORE INSTALLATION"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "Field markup only. Verify layout before installation. This is not code approval."
+    ]
+  },
+  "validated_spec": {
+    "annotation_mode": "electrical_lines",
+    "electrical_lines": [
+      {
+        "points": [
+          {
+            "x": 0.15,
+            "y": 0.55,
+            "label": null
+          },
+          {
+            "x": 0.85,
+            "y": 0.55,
+            "label": null
+          }
+        ],
+        "color": "red",
+        "thickness": 5
+      }
+    ],
+    "outlet_boxes": [
+      {
+        "center": {
+          "x": 0.25,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-1"
+      },
+      {
+        "center": {
+          "x": 0.45,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-2"
+      },
+      {
+        "center": {
+          "x": 0.65,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-3"
+      },
+      {
+        "center": {
+          "x": 0.8,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-4"
+      }
+    ],
+    "stud_centerlines": [],
+    "floor_layout_lines": [],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.85,
+          "y": 0.55,
+          "label": null
+        },
+        "text": "PROPOSED CABLE ROUTE"
+      },
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.45,
+          "label": null
+        },
+        "text": "HORIZONTAL RUN"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.3,
+          "label": null
+        },
+        "text": "VERIFY BEFORE INSTALLATION"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "Field markup only. Verify layout before installation. This is not code approval."
+    ]
+  },
+  "snapped_spec": {
+    "annotation_mode": "flooring_pattern",
+    "electrical_lines": [
+      {
+        "points": [
+          {
+            "x": 0.15,
+            "y": 0.55,
+            "label": null
+          },
+          {
+            "x": 0.85,
+            "y": 0.55,
+            "label": null
+          }
+        ],
+        "color": "red",
+        "thickness": 5
+      }
+    ],
+    "outlet_boxes": [
+      {
+        "center": {
+          "x": 0.25,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-1"
+      },
+      {
+        "center": {
+          "x": 0.45,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-2"
+      },
+      {
+        "center": {
+          "x": 0.65,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-3"
+      },
+      {
+        "center": {
+          "x": 0.8,
+          "y": 0.55,
+          "label": null
+        },
+        "width": 0.055,
+        "height": 0.075,
+        "label": "E-4"
+      }
+    ],
+    "stud_centerlines": [],
+    "floor_layout_lines": [
+      {
+        "points": [
+          {
+            "x": 0.12307692307692306,
+            "y": 0.8161804595936333,
+            "label": null
+          },
+          {
+            "x": 0.5155270655270655,
+            "y": 0.6814038589487691,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.18547008547008542,
+            "y": 0.8502149547059726,
+            "label": null
+          },
+          {
+            "x": 0.5806267806267806,
+            "y": 0.6970597267004452,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.24786324786324782,
+            "y": 0.8842494498183121,
+            "label": null
+          },
+          {
+            "x": 0.6457264957264957,
+            "y": 0.7127155944521213,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.3102564102564102,
+            "y": 0.9182839449306515,
+            "label": null
+          },
+          {
+            "x": 0.7108262108262108,
+            "y": 0.7283714622037974,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.3726495726495726,
+            "y": 0.9523184400429909,
+            "label": null
+          },
+          {
+            "x": 0.7759259259259259,
+            "y": 0.7440273299554736,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.1581196581196581,
+            "y": 0.7530464711602436,
+            "label": null
+          },
+          {
+            "x": 0.5365384615384615,
+            "y": 0.9296855007932853,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.25555555555555554,
+            "y": 0.7239469778391934,
+            "label": null
+          },
+          {
+            "x": 0.638034188034188,
+            "y": 0.8730180664312401,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      },
+      {
+        "points": [
+          {
+            "x": 0.35299145299145296,
+            "y": 0.6948474845181432,
+            "label": null
+          },
+          {
+            "x": 0.7395299145299146,
+            "y": 0.8163506320691949,
+            "label": null
+          }
+        ],
+        "color": "cyan",
+        "thickness": 3
+      }
+    ],
+    "labels": [
+      {
+        "anchor": {
+          "x": 0.85,
+          "y": 0.55,
+          "label": null
+        },
+        "text": "PROPOSED CABLE ROUTE"
+      },
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.45,
+          "label": null
+        },
+        "text": "HORIZONTAL RUN"
+      },
+      {
+        "anchor": {
+          "x": 0.060683760683760676,
+          "y": 0.7821459644812938,
+          "label": "front_left"
+        },
+        "text": "CALIBRATED FLOOR LAYOUT"
+      }
+    ],
+    "warning_badges": [
+      {
+        "anchor": {
+          "x": 0.5,
+          "y": 0.3,
+          "label": null
+        },
+        "text": "VERIFY BEFORE INSTALLATION"
+      }
+    ],
+    "arrows": [],
+    "warnings": [
+      "Field markup only. Verify layout before installation. This is not code approval."
+    ]
+  },
+  "created_at": "2026-06-19T20:07:00.532949+00:00"
+}

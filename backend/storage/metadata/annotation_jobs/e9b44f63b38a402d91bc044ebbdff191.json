@@ -1,0 +1,15 @@
+{
+  "_id": "e9b44f63b38a402d91bc044ebbdff191",
+  "image_asset_id": "e9b44f63b38a402d91bc044ebbdff191-original",
+  "calibration_payload_id": null,
+  "annotation_mode": "electrical_lines",
+  "model_provider": "mock",
+  "status": "approved_for_field_reference",
+  "warnings": [
+    "Field reference only. Verify before installation.",
+    "No wall corners provided; electrical route is approximate."
+  ],
+  "completed_at": null,
+  "created_at": "2026-06-19T20:13:14.517057+00:00",
+  "updated_at": "2026-06-19T20:13:14.535316+00:00"
+}
