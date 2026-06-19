@@ -1,0 +1,12 @@
+{
+  "_id": "e75bebb889bd461f864eaebc6cb6a809-original",
+  "project_id": null,
+  "wall_id": null,
+  "original_filename": "field-photo.jpg",
+  "width": 660,
+  "height": 300,
+  "content_type": "image/jpeg",
+  "storage_backend": "local",
+  "local_path": "backend/storage/originals/e75bebb889bd461f864eaebc6cb6a809.jpg",
+  "created_at": "2026-06-19T22:02:14.718276+00:00"
+}

@@ -133,3 +133,15 @@ class ReviewResponse(BaseModel):
     job_id: str
     status: JobStatus
     event_type: ReviewEventType
+
+
+class ApprovedFieldReferenceSummary(BaseModel):
+    id: str
+    job_id: str
+    annotation_mode: AnnotationMode
+    project_id: Optional[str] = None
+    wall_id: Optional[str] = None
+    reviewer_id: Optional[str] = None
+    notes: Optional[str] = None
+    approved_at: str
+    image_url: str

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import base64
 import os
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,6 +20,7 @@ COLLECTIONS = [
     "annotation_specs",
     "rendered_assets",
     "review_events",
+    "approved_field_references",
 ]
 
 
@@ -35,8 +37,8 @@ def _json_default(value: Any) -> Any:
 
 
 class LocalJsonRepository:
-    def __init__(self, root: str | Path = "backend/storage/metadata") -> None:
-        self.root = Path(root)
+    def __init__(self, root: str | Path | None = None) -> None:
+        self.root = Path(root or os.getenv("METADATA_STORAGE_ROOT", "backend/storage/metadata"))
         for collection in COLLECTIONS:
             (self.root / collection).mkdir(parents=True, exist_ok=True)
 
@@ -75,6 +77,45 @@ class LocalJsonRepository:
         specs = self._find_by("annotation_specs", "annotation_job_id", job_id)
         reviews = self._find_by("review_events", "annotation_job_id", job_id)
         return {"job": job, "rendered_assets": rendered_assets, "annotation_specs": specs, "review_events": reviews}
+
+    def save_approved_field_reference(self, job_id: str, reviewer_id: str, notes: Optional[str]) -> dict[str, Any]:
+        bundle = self.get_annotation_job_with_assets(job_id)
+        if not bundle or not bundle["rendered_assets"]:
+            raise KeyError(job_id)
+
+        job = bundle["job"]
+        rendered_asset = bundle["rendered_assets"][0]
+        rendered_path = Path(rendered_asset["local_path"])
+        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
+        document = {
+            "_id": job_id,
+            "job_id": job_id,
+            "annotation_mode": job["annotation_mode"],
+            "project_id": job.get("project_id"),
+            "wall_id": job.get("wall_id"),
+            "reviewer_id": reviewer_id,
+            "notes": notes,
+            "content_type": rendered_asset.get("content_type", "image/jpeg"),
+            "image_data_base64": image_data_base64,
+            "approved_at": _now(),
+        }
+        path = self.root / "approved_field_references" / f"{job_id}.json"
+        path.write_text(json.dumps(document, indent=2, default=_json_default))
+        return document
+
+    def list_approved_field_references(self) -> list[dict[str, Any]]:
+        documents = []
+        for path in (self.root / "approved_field_references").glob("*.json"):
+            document = json.loads(path.read_text())
+            document.pop("image_data_base64", None)
+            documents.append(document)
+        return sorted(documents, key=lambda item: item.get("approved_at", ""), reverse=True)
+
+    def get_approved_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
+        document = self._read("approved_field_references", reference_id)
+        if not document:
+            return None
+        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
 
     def _insert(self, collection: str, document: dict[str, Any]) -> dict[str, Any]:
         stored = dict(document)
@@ -134,6 +175,44 @@ class MongoRepository:
             "annotation_specs": list(self.db.annotation_specs.find({"annotation_job_id": job_id})),
             "review_events": list(self.db.review_events.find({"annotation_job_id": job_id})),
         }
+
+    def save_approved_field_reference(self, job_id: str, reviewer_id: str, notes: Optional[str]) -> dict[str, Any]:
+        bundle = self.get_annotation_job_with_assets(job_id)
+        if not bundle or not bundle["rendered_assets"]:
+            raise KeyError(job_id)
+
+        job = bundle["job"]
+        rendered_asset = bundle["rendered_assets"][0]
+        rendered_path = Path(rendered_asset["local_path"])
+        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
+        document = {
+            "_id": job_id,
+            "job_id": job_id,
+            "annotation_mode": job["annotation_mode"],
+            "project_id": job.get("project_id"),
+            "wall_id": job.get("wall_id"),
+            "reviewer_id": reviewer_id,
+            "notes": notes,
+            "content_type": rendered_asset.get("content_type", "image/jpeg"),
+            "image_data_base64": image_data_base64,
+            "approved_at": _now(),
+        }
+        self.db.approved_field_references.replace_one({"_id": job_id}, document, upsert=True)
+        return document
+
+    def list_approved_field_references(self) -> list[dict[str, Any]]:
+        return list(
+            self.db.approved_field_references.find(
+                {},
+                {"image_data_base64": 0},
+            ).sort("approved_at", -1)
+        )
+
+    def get_approved_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
+        document = self.db.approved_field_references.find_one({"_id": reference_id})
+        if not document:
+            return None
+        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
 
     def _insert(self, collection: str, document: dict[str, Any]) -> dict[str, Any]:
         stored = dict(document)

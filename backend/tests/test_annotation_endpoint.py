@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import tempfile
 from pathlib import Path
 
 import cv2
@@ -8,6 +9,10 @@ import numpy as np
 from fastapi.testclient import TestClient
 
 os.environ["MODEL_PROVIDER"] = "mock"
+os.environ["PERSISTENCE_BACKEND"] = "local"
+_storage_root = tempfile.TemporaryDirectory()
+os.environ["LOCAL_STORAGE_ROOT"] = str(Path(_storage_root.name) / "storage")
+os.environ["METADATA_STORAGE_ROOT"] = str(Path(_storage_root.name) / "metadata")
 
 from app.main import app
 from app.schemas import AnnotationMode
@@ -104,3 +109,32 @@ def test_review_endpoint_updates_status() -> None:
     payload = review_response.json()
     assert payload["job_id"] == job_id
     assert payload["status"] == "approved_for_field_reference"
+
+
+def test_approved_review_is_available_as_field_reference() -> None:
+    create_response = _post_annotation(AnnotationMode.stud_locations)
+    job_id = create_response.json()["job_id"]
+
+    client.post(
+        f"/api/v1/annotations/{job_id}/review",
+        json={
+            "event_type": "approved",
+            "reviewer_id": "reviewer-1",
+            "notes": "approved photo",
+        },
+    )
+
+    list_response = client.get("/api/v1/field-references/approved")
+
+    assert list_response.status_code == 200
+    references = list_response.json()
+    reference = next(item for item in references if item["job_id"] == job_id)
+    assert reference["annotation_mode"] == "stud_locations"
+    assert reference["notes"] == "approved photo"
+    assert reference["image_url"].endswith("/image")
+
+    image_response = client.get(reference["image_url"])
+
+    assert image_response.status_code == 200
+    assert image_response.headers["content-type"] == "image/jpeg"
+    assert len(image_response.content) > 0

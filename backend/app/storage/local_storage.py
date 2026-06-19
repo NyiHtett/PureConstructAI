@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from uuid import uuid4
 
@@ -7,8 +8,8 @@ from fastapi import UploadFile
 
 
 class LocalStorage:
-    def __init__(self, root: str | Path = "backend/storage") -> None:
-        self.root = Path(root)
+    def __init__(self, root: str | Path | None = None) -> None:
+        self.root = Path(root or os.getenv("LOCAL_STORAGE_ROOT", "backend/storage"))
         self.originals_dir = self.root / "originals"
         self.rendered_dir = self.root / "rendered"
         self.originals_dir.mkdir(parents=True, exist_ok=True)
