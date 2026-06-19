@@ -21,8 +21,8 @@ enum BackendClientError: Error, LocalizedError {
 final class BackendClient {
     var baseURL: URL
 
-    init(baseURL: URL = URL(string: "http://192.168.1.173:8002")!) {
-        self.baseURL = baseURL
+    init(baseURL: URL? = nil) {
+        self.baseURL = baseURL ?? BackendSettings.configuredBaseURL
     }
 
     func submitAnnotation(

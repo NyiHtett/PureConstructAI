@@ -1,0 +1,16 @@
+{
+  "source": "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/AnnotationModePickerView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Annotation Mode",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 7
+        }
+      }
+    ]
+  },
+  "version": 1
+}

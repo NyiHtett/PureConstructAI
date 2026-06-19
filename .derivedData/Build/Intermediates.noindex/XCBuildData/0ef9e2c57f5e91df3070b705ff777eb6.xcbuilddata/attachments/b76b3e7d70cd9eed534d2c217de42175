@@ -1,0 +1,169 @@
+{
+  "" : {
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct AI-primary.dia",
+    "emit-module-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct AI-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct AI-primary-emit-module.dia",
+    "pch" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct AI-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct AI-primary.swiftdeps"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/ContentView.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Item.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/Item~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Models/AnnotationMode.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationMode~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Models/AnnotationResponse.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResponse~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Models/CalibrationModels.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/CalibrationModels~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/PureConstruct_AIApp.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PureConstruct_AIApp~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Services/BackendClient.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendClient~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Services/BackendSettings.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/BackendSettings~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/AnnotationModePickerView.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationModePickerView~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/AnnotationResultView.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/AnnotationResultView~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/ConstructStyle.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/ConstructStyle~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/GeometryCaptureView.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryCaptureView~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/GeometryOverlayView.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/GeometryOverlayView~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/HomeView.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/HomeView~partial.swiftmodule"
+  },
+  "/Users/htet/Desktop/PureConstruct AI/PureConstruct AI/Views/PhotoCaptureView.swift" : {
+    "const-values" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView.swiftconstvalues",
+    "dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView.d",
+    "diagnostics" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView.dia",
+    "index-unit-output-path" : "/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView.o",
+    "llvm-bc" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView.bc",
+    "object" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView.o",
+    "swift-dependencies" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView.swiftdeps",
+    "swiftmodule" : "/Users/htet/Desktop/PureConstruct AI/.derivedData/Build/Intermediates.noindex/PureConstruct AI.build/Debug-iphoneos/PureConstruct AI.build/Objects-normal/arm64/PhotoCaptureView~partial.swiftmodule"
+  }
+}
