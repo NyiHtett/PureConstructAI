@@ -145,3 +145,15 @@ class ApprovedFieldReferenceSummary(BaseModel):
     notes: Optional[str] = None
     approved_at: str
     image_url: str
+
+
+class RejectedFieldReferenceSummary(BaseModel):
+    id: str
+    job_id: str
+    annotation_mode: AnnotationMode
+    project_id: Optional[str] = None
+    wall_id: Optional[str] = None
+    reviewer_id: Optional[str] = None
+    notes: Optional[str] = None
+    rejected_at: str
+    image_url: str

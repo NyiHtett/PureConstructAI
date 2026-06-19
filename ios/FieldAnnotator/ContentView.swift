@@ -24,7 +24,8 @@ struct ContentView: View {
 
 private struct FieldReferenceView: View {
     @State private var client = BackendClient()
-    @State private var references: [ApprovedFieldReference] = []
+    @State private var approvedReferences: [ApprovedFieldReference] = []
+    @State private var rejectedReferences: [RejectedFieldReference] = []
     @State private var images: [String: UIImage] = [:]
     @State private var isLoading = false
     @State private var errorMessage: String?
@@ -46,23 +47,33 @@ private struct FieldReferenceView: View {
                         SectionTitle("Approved for Field Reference", symbol: "checkmark.seal")
 
                         if isLoading {
-                            HStack {
-                                ProgressView()
-                                    .tint(ConstructPalette.safetyOrange)
-                                Text("Loading approved references")
-                                    .font(.system(size: 14, weight: .bold, design: .monospaced))
-                            }
-                            .foregroundStyle(ConstructPalette.paper)
+                            loadingRow("Loading approved references")
                         } else if let errorMessage {
-                            Text(errorMessage)
-                                .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(.red)
-                        } else if references.isEmpty {
+                            errorRow(errorMessage)
+                        } else if approvedReferences.isEmpty {
                             Text("No approved field references yet.")
                                 .foregroundStyle(ConstructPalette.muted)
                         } else {
-                            ForEach(references) { reference in
+                            ForEach(approvedReferences) { reference in
                                 approvedReferenceCard(reference)
+                            }
+                        }
+                    }
+                    .constructionPanel()
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        SectionTitle("Rejected", symbol: "xmark.seal")
+
+                        if isLoading {
+                            loadingRow("Loading rejected references")
+                        } else if let errorMessage {
+                            errorRow(errorMessage)
+                        } else if rejectedReferences.isEmpty {
+                            Text("No rejected references yet.")
+                                .foregroundStyle(ConstructPalette.muted)
+                        } else {
+                            ForEach(rejectedReferences) { reference in
+                                rejectedReferenceCard(reference)
                             }
                         }
                     }
@@ -74,10 +85,10 @@ private struct FieldReferenceView: View {
             .navigationTitle("Field Reference")
             .navigationBarTitleDisplayMode(.inline)
             .task {
-                await loadApprovedReferences()
+                await loadFieldReferences()
             }
             .refreshable {
-                await loadApprovedReferences()
+                await loadFieldReferences()
             }
         }
     }
@@ -90,7 +101,49 @@ private struct FieldReferenceView: View {
             .background(ConstructPalette.panel, in: RoundedRectangle(cornerRadius: 7))
     }
 
+    private func loadingRow(_ title: String) -> some View {
+        HStack {
+            ProgressView()
+                .tint(ConstructPalette.safetyOrange)
+            Text(title)
+                .font(.system(size: 14, weight: .bold, design: .monospaced))
+        }
+        .foregroundStyle(ConstructPalette.paper)
+    }
+
+    private func errorRow(_ message: String) -> some View {
+        Text(message)
+            .font(.system(size: 13, weight: .semibold))
+            .foregroundStyle(.red)
+    }
+
     private func approvedReferenceCard(_ reference: ApprovedFieldReference) -> some View {
+        referenceCard(
+            imageKey: "approved-\(reference.id)",
+            annotationMode: reference.annotationMode,
+            projectId: reference.projectId,
+            wallId: reference.wallId,
+            notes: reference.notes
+        )
+    }
+
+    private func rejectedReferenceCard(_ reference: RejectedFieldReference) -> some View {
+        referenceCard(
+            imageKey: "rejected-\(reference.id)",
+            annotationMode: reference.annotationMode,
+            projectId: reference.projectId,
+            wallId: reference.wallId,
+            notes: reference.notes
+        )
+    }
+
+    private func referenceCard(
+        imageKey: String,
+        annotationMode: AnnotationMode,
+        projectId: String?,
+        wallId: String?,
+        notes: String?
+    ) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
@@ -98,7 +151,7 @@ private struct FieldReferenceView: View {
                     .overlay(BlueprintGrid().clipShape(RoundedRectangle(cornerRadius: 8)))
                     .overlay(RoundedRectangle(cornerRadius: 8).stroke(ConstructPalette.gridLine))
 
-                if let image = images[reference.id] {
+                if let image = images[imageKey] {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
@@ -110,18 +163,18 @@ private struct FieldReferenceView: View {
             }
             .frame(maxWidth: .infinity, minHeight: 180, maxHeight: 280)
 
-            Text(reference.annotationMode.title)
+            Text(annotationMode.title)
                 .font(.system(size: 16, weight: .heavy, design: .rounded))
                 .foregroundStyle(ConstructPalette.paper)
 
             HStack {
-                Label(reference.projectId ?? "No project", systemImage: "folder")
-                Label(reference.wallId ?? "No wall", systemImage: "rectangle.dashed")
+                Label(projectId ?? "No project", systemImage: "folder")
+                Label(wallId ?? "No wall", systemImage: "rectangle.dashed")
             }
             .font(.system(size: 12, weight: .bold, design: .monospaced))
             .foregroundStyle(ConstructPalette.muted)
 
-            if let notes = reference.notes, !notes.isEmpty {
+            if let notes, !notes.isEmpty {
                 Text(notes)
                     .font(.system(size: 13))
                     .foregroundStyle(ConstructPalette.muted)
@@ -133,16 +186,22 @@ private struct FieldReferenceView: View {
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(ConstructPalette.gridLine))
     }
 
-    private func loadApprovedReferences() async {
+    private func loadFieldReferences() async {
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
 
         do {
-            let loadedReferences = try await client.fetchApprovedFieldReferences()
-            references = loadedReferences
-            for reference in loadedReferences where images[reference.id] == nil {
-                images[reference.id] = try await client.fetchAnnotatedImage(path: reference.imageURL)
+            let loadedApprovedReferences = try await client.fetchApprovedFieldReferences()
+            let loadedRejectedReferences = try await client.fetchRejectedFieldReferences()
+            approvedReferences = loadedApprovedReferences
+            rejectedReferences = loadedRejectedReferences
+
+            for reference in loadedApprovedReferences where images["approved-\(reference.id)"] == nil {
+                images["approved-\(reference.id)"] = try await client.fetchAnnotatedImage(path: reference.imageURL)
+            }
+            for reference in loadedRejectedReferences where images["rejected-\(reference.id)"] == nil {
+                images["rejected-\(reference.id)"] = try await client.fetchAnnotatedImage(path: reference.imageURL)
             }
         } catch {
             errorMessage = error.localizedDescription

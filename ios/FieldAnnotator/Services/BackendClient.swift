@@ -82,6 +82,13 @@ final class BackendClient {
         return try JSONDecoder().decode([ApprovedFieldReference].self, from: data)
     }
 
+    func fetchRejectedFieldReferences() async throws -> [RejectedFieldReference] {
+        let url = baseURL.appending(path: "/api/v1/field-references/rejected")
+        let (data, response) = try await URLSession.shared.data(from: url)
+        try validate(response: response, data: data)
+        return try JSONDecoder().decode([RejectedFieldReference].self, from: data)
+    }
+
     func sendReview(jobId: String, eventType: String, reviewerId: String, notes: String?) async throws -> ReviewResponse {
         let url = baseURL.appending(path: "/api/v1/annotations/\(jobId)/review")
         var request = URLRequest(url: url)

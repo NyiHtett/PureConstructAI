@@ -21,6 +21,7 @@ COLLECTIONS = [
     "rendered_assets",
     "review_events",
     "approved_field_references",
+    "rejected_field_references",
 ]
 
 
@@ -113,6 +114,45 @@ class LocalJsonRepository:
 
     def get_approved_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
         document = self._read("approved_field_references", reference_id)
+        if not document:
+            return None
+        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
+
+    def save_rejected_field_reference(self, job_id: str, reviewer_id: str, notes: Optional[str]) -> dict[str, Any]:
+        bundle = self.get_annotation_job_with_assets(job_id)
+        if not bundle or not bundle["rendered_assets"]:
+            raise KeyError(job_id)
+
+        job = bundle["job"]
+        rendered_asset = bundle["rendered_assets"][0]
+        rendered_path = Path(rendered_asset["local_path"])
+        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
+        document = {
+            "_id": job_id,
+            "job_id": job_id,
+            "annotation_mode": job["annotation_mode"],
+            "project_id": job.get("project_id"),
+            "wall_id": job.get("wall_id"),
+            "reviewer_id": reviewer_id,
+            "notes": notes,
+            "content_type": rendered_asset.get("content_type", "image/jpeg"),
+            "image_data_base64": image_data_base64,
+            "rejected_at": _now(),
+        }
+        path = self.root / "rejected_field_references" / f"{job_id}.json"
+        path.write_text(json.dumps(document, indent=2, default=_json_default))
+        return document
+
+    def list_rejected_field_references(self) -> list[dict[str, Any]]:
+        documents = []
+        for path in (self.root / "rejected_field_references").glob("*.json"):
+            document = json.loads(path.read_text())
+            document.pop("image_data_base64", None)
+            documents.append(document)
+        return sorted(documents, key=lambda item: item.get("rejected_at", ""), reverse=True)
+
+    def get_rejected_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
+        document = self._read("rejected_field_references", reference_id)
         if not document:
             return None
         return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
@@ -210,6 +250,44 @@ class MongoRepository:
 
     def get_approved_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
         document = self.db.approved_field_references.find_one({"_id": reference_id})
+        if not document:
+            return None
+        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
+
+    def save_rejected_field_reference(self, job_id: str, reviewer_id: str, notes: Optional[str]) -> dict[str, Any]:
+        bundle = self.get_annotation_job_with_assets(job_id)
+        if not bundle or not bundle["rendered_assets"]:
+            raise KeyError(job_id)
+
+        job = bundle["job"]
+        rendered_asset = bundle["rendered_assets"][0]
+        rendered_path = Path(rendered_asset["local_path"])
+        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
+        document = {
+            "_id": job_id,
+            "job_id": job_id,
+            "annotation_mode": job["annotation_mode"],
+            "project_id": job.get("project_id"),
+            "wall_id": job.get("wall_id"),
+            "reviewer_id": reviewer_id,
+            "notes": notes,
+            "content_type": rendered_asset.get("content_type", "image/jpeg"),
+            "image_data_base64": image_data_base64,
+            "rejected_at": _now(),
+        }
+        self.db.rejected_field_references.replace_one({"_id": job_id}, document, upsert=True)
+        return document
+
+    def list_rejected_field_references(self) -> list[dict[str, Any]]:
+        return list(
+            self.db.rejected_field_references.find(
+                {},
+                {"image_data_base64": 0},
+            ).sort("rejected_at", -1)
+        )
+
+    def get_rejected_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
+        document = self.db.rejected_field_references.find_one({"_id": reference_id})
         if not document:
             return None
         return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")

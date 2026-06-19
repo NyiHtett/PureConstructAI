@@ -138,3 +138,35 @@ def test_approved_review_is_available_as_field_reference() -> None:
     assert image_response.status_code == 200
     assert image_response.headers["content-type"] == "image/jpeg"
     assert len(image_response.content) > 0
+
+
+def test_rejected_review_is_available_as_rejected_field_reference() -> None:
+    create_response = _post_annotation(AnnotationMode.field_notes)
+    job_id = create_response.json()["job_id"]
+
+    review_response = client.post(
+        f"/api/v1/annotations/{job_id}/review",
+        json={
+            "event_type": "rejected",
+            "reviewer_id": "reviewer-2",
+            "notes": "bad markup",
+        },
+    )
+
+    assert review_response.status_code == 200
+    assert review_response.json()["status"] == "rejected"
+
+    list_response = client.get("/api/v1/field-references/rejected")
+
+    assert list_response.status_code == 200
+    references = list_response.json()
+    reference = next(item for item in references if item["job_id"] == job_id)
+    assert reference["annotation_mode"] == "field_notes"
+    assert reference["notes"] == "bad markup"
+    assert reference["image_url"].endswith("/image")
+
+    image_response = client.get(reference["image_url"])
+
+    assert image_response.status_code == 200
+    assert image_response.headers["content-type"] == "image/jpeg"
+    assert len(image_response.content) > 0
