@@ -1,0 +1,10 @@
+{
+  "annotation_job_id": "bd75ab6e8e334e8badba4caaab668580",
+  "reviewer_id": "reviewer-1",
+  "event_type": "approved",
+  "before_spec": null,
+  "after_spec": null,
+  "notes": "usable as field reference",
+  "_id": "a406f41ce5f9452e8aa95a69bd48ca3c",
+  "created_at": "2026-06-19T20:22:25.125028+00:00"
+}

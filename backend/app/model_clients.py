@@ -10,7 +10,7 @@ import cv2
 import httpx
 
 from app.mock_specs import build_mock_annotation_spec
-from app.prompts import SYSTEM_PROMPT, build_user_prompt
+from app.prompts import build_user_prompt, get_system_prompt
 from app.schemas import AnnotationMode, AnnotationSpec, CalibrationPayload, WarningBadgeItem, NormalizedPoint
 
 
@@ -94,7 +94,7 @@ class OpenInferModelClient:
             "model": self.model,
             "stream": True,
             "input": [
-                {"role": "system", "content": [{"type": "input_text", "text": SYSTEM_PROMPT}]},
+                {"role": "system", "content": [{"type": "input_text", "text": get_system_prompt(annotation_mode)}]},
                 {
                     "role": "user",
                     "content": [
@@ -216,6 +216,22 @@ def _semantic_plan_to_annotation_spec(parsed: dict) -> dict:
                 normalized["labels"].append({"anchor": anchor, "text": item["label"]})
         elif item_type == "outlet_box":
             normalized["outlet_boxes"].append({"center": item.get("center"), "label": item.get("label")})
+        elif item_type == "stud_centerline":
+            normalized["stud_centerlines"].append(
+                {"top": item.get("top"), "bottom": item.get("bottom"), "label": item.get("label")}
+            )
+        elif item_type == "floor_layout_line":
+            normalized["floor_layout_lines"].append({"points": [item.get("start"), item.get("end")]})
+            if item.get("label"):
+                normalized["labels"].append({"anchor": item.get("start"), "text": item["label"]})
+        elif item_type == "floor_grid":
+            for line in item.get("lines", []):
+                if isinstance(line, dict):
+                    normalized["floor_layout_lines"].append({"points": [line.get("start"), line.get("end")]})
+            if item.get("label") and item.get("lines"):
+                first_line = item["lines"][0]
+                if isinstance(first_line, dict):
+                    normalized["labels"].append({"anchor": first_line.get("start"), "text": item["label"]})
         elif item_type == "label":
             normalized["labels"].append({"anchor": item.get("anchor"), "text": item.get("text", "")})
         elif item_type == "warning_badge":

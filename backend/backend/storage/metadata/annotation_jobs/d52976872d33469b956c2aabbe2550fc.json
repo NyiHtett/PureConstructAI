@@ -1,0 +1,13 @@
+{
+  "_id": "d52976872d33469b956c2aabbe2550fc",
+  "image_asset_id": "d52976872d33469b956c2aabbe2550fc-original",
+  "calibration_payload_id": "d52976872d33469b956c2aabbe2550fc-calibration",
+  "annotation_mode": "flooring_pattern",
+  "model_provider": "openinfer",
+  "status": "rendered",
+  "warnings": [
+    "Field markup only. Verify layout before installation. This is not code approval."
+  ],
+  "completed_at": null,
+  "created_at": "2026-06-19T20:04:49.130162+00:00"
+}

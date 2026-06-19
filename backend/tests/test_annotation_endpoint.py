@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import cv2
 import numpy as np
 from fastapi.testclient import TestClient
+
+os.environ["MODEL_PROVIDER"] = "mock"
 
 from app.main import app
 from app.schemas import AnnotationMode

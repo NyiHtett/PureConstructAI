@@ -1,0 +1,30 @@
+{
+  "_id": "2c3002029e514aba81139e1dac52f1ee-calibration",
+  "image_asset_id": "2c3002029e514aba81139e1dac52f1ee-original",
+  "wall_corners_norm": [
+    {
+      "x": 0.02393162393162393,
+      "y": 0.1569139672587949,
+      "label": "top_left"
+    },
+    {
+      "x": 0.4683760683760684,
+      "y": 0.13253221873911536,
+      "label": "top_right"
+    },
+    {
+      "x": 0.5128205128205128,
+      "y": 0.3577731336352026,
+      "label": "bottom_right"
+    },
+    {
+      "x": 0.035897435897435895,
+      "y": 0.5586323000116103,
+      "label": "bottom_left"
+    }
+  ],
+  "stud_centerlines_norm": [],
+  "floor_plane_norm": null,
+  "created_by": "api",
+  "created_at": "2026-06-19T20:28:58.280200+00:00"
+}
