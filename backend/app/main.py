@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import tempfile
 from pathlib import Path
 from typing import Optional
 
 import cv2
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import FileResponse, Response
+from fastapi.responses import Response
 
 from app.db.repositories import get_repository
 from app.geometry import parse_calibration_json
@@ -22,11 +23,10 @@ from app.schemas import (
     ReviewResponse,
 )
 from app.snapper import snap_annotation_spec
-from app.storage.local_storage import LocalStorage
+from app.storage import get_image_storage, get_image_storage_for_asset
 
 
 app = FastAPI(title="PureConstruct Annotation Renderer")
-storage = LocalStorage()
 
 
 @app.post("/api/v1/annotations", response_model=AnnotationResponse)
@@ -38,109 +38,118 @@ async def create_annotation(
     wall_id: Optional[str] = Form(None),
     notes: Optional[str] = Form(None),
 ) -> AnnotationResponse:
-    job_id = storage.new_job_id()
-    original_path = await storage.save_upload(image, job_id)
-    rendered_path = storage.rendered_path(job_id)
+    image_storage = get_image_storage()
+    job_id = image_storage.new_job_id()
     repository = get_repository()
+    content_type = image.content_type or "image/jpeg"
 
-    original_image = cv2.imread(str(original_path))
-    if original_image is None:
-        raise HTTPException(status_code=400, detail="Uploaded file is not a readable image")
-    image_height, image_width = original_image.shape[:2]
+    with tempfile.TemporaryDirectory(prefix="pureconstruct-annotation-") as temp_dir:
+        original_path = Path(temp_dir) / f"{job_id}-original.jpg"
+        rendered_path = Path(temp_dir) / f"{job_id}-rendered.jpg"
+        original_path.write_bytes(await image.read())
 
-    try:
-        calibration = parse_calibration_json(calibration_json)
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        original_image = cv2.imread(str(original_path))
+        if original_image is None:
+            raise HTTPException(status_code=400, detail="Uploaded file is not a readable image")
+        image_height, image_width = original_image.shape[:2]
 
-    try:
-        raw_spec = get_model_client().generate_annotation_spec(
-            str(original_path),
-            annotation_mode,
-            calibration,
-            notes,
-        )
-    except ModelClientError as exc:
-        raise HTTPException(status_code=502, detail=str(exc)) from exc
+        try:
+            calibration = parse_calibration_json(calibration_json)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    spec = snap_annotation_spec(raw_spec, calibration, annotation_mode)
-    render_annotation(str(original_path), spec, str(rendered_path))
+        try:
+            raw_spec = get_model_client().generate_annotation_spec(
+                str(original_path),
+                annotation_mode,
+                calibration,
+                notes,
+            )
+        except ModelClientError as exc:
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
 
-    image_asset = repository.create_image_asset(
-        {
-            "_id": f"{job_id}-original",
-            "project_id": project_id,
-            "wall_id": wall_id,
-            "original_filename": image.filename,
-            "width": image_width,
-            "height": image_height,
-            "content_type": image.content_type or "image/jpeg",
-            "storage_backend": "local",
-            "local_path": str(original_path),
-        }
-    )
-    calibration_asset = None
-    if calibration:
-        calibration_asset = repository.create_calibration_payload(
+        spec = snap_annotation_spec(raw_spec, calibration, annotation_mode)
+        render_annotation(str(original_path), spec, str(rendered_path))
+
+        original_storage = image_storage.persist_original_file(original_path, job_id, content_type)
+        rendered_storage = image_storage.persist_rendered_file(rendered_path, job_id, "image/jpeg")
+
+        image_asset = repository.create_image_asset(
             {
-                "_id": f"{job_id}-calibration",
-                "image_asset_id": image_asset["_id"],
-                "wall_corners_norm": [point.model_dump(mode="json") for point in calibration.wall_corners_norm],
-                "stud_centerlines_norm": [stud.model_dump(mode="json") for stud in calibration.stud_centerlines_norm],
-                "floor_plane_norm": calibration.floor_plane_norm.model_dump(mode="json")
-                if calibration.floor_plane_norm
-                else None,
-                "created_by": "api",
+                "_id": f"{job_id}-original",
+                "project_id": project_id,
+                "wall_id": wall_id,
+                "original_filename": image.filename or "field-photo.jpg",
+                "width": image_width,
+                "height": image_height,
+                **original_storage,
             }
         )
-    repository.create_annotation_job(
-        {
-            "_id": job_id,
-            "image_asset_id": image_asset["_id"],
-            "calibration_payload_id": calibration_asset["_id"] if calibration_asset else None,
-            "project_id": project_id,
-            "wall_id": wall_id,
-            "annotation_mode": annotation_mode.value,
-            "model_provider": get_model_provider_name(),
-            "status": JobStatus.rendered.value,
-            "warnings": spec.warnings,
-            "completed_at": None,
-        }
-    )
-    repository.save_annotation_spec(
-        {
-            "_id": f"{job_id}-spec",
-            "annotation_job_id": job_id,
-            "raw_model_output": raw_spec.model_dump(mode="json"),
-            "validated_spec": raw_spec.model_dump(mode="json"),
-            "snapped_spec": spec.model_dump(mode="json"),
-        }
-    )
-    repository.save_rendered_asset(
-        {
-            "_id": f"{job_id}-rendered",
-            "annotation_job_id": job_id,
-            "content_type": "image/jpeg",
-            "storage_backend": "local",
-            "local_path": str(rendered_path),
-        }
-    )
+        calibration_asset = None
+        if calibration:
+            calibration_asset = repository.create_calibration_payload(
+                {
+                    "_id": f"{job_id}-calibration",
+                    "image_asset_id": image_asset["_id"],
+                    "wall_corners_norm": [point.model_dump(mode="json") for point in calibration.wall_corners_norm],
+                    "stud_centerlines_norm": [
+                        stud.model_dump(mode="json") for stud in calibration.stud_centerlines_norm
+                    ],
+                    "floor_plane_norm": calibration.floor_plane_norm.model_dump(mode="json")
+                    if calibration.floor_plane_norm
+                    else None,
+                    "created_by": "api",
+                }
+            )
+        repository.create_annotation_job(
+            {
+                "_id": job_id,
+                "image_asset_id": image_asset["_id"],
+                "calibration_payload_id": calibration_asset["_id"] if calibration_asset else None,
+                "project_id": project_id,
+                "wall_id": wall_id,
+                "annotation_mode": annotation_mode.value,
+                "model_provider": get_model_provider_name(),
+                "status": JobStatus.rendered.value,
+                "warnings": spec.warnings,
+                "completed_at": None,
+            }
+        )
+        repository.save_annotation_spec(
+            {
+                "_id": f"{job_id}-spec",
+                "annotation_job_id": job_id,
+                "raw_model_output": raw_spec.model_dump(mode="json"),
+                "validated_spec": raw_spec.model_dump(mode="json"),
+                "snapped_spec": spec.model_dump(mode="json"),
+            }
+        )
+        repository.save_rendered_asset(
+            {
+                "_id": f"{job_id}-rendered",
+                "annotation_job_id": job_id,
+                **rendered_storage,
+            }
+        )
 
-    return AnnotationResponse(
-        job_id=job_id,
-        annotation_mode=annotation_mode,
-        annotated_image_url=f"/api/v1/annotations/{job_id}/image",
-        spec=spec,
-        warnings=spec.warnings,
-    )
+        return AnnotationResponse(
+            job_id=job_id,
+            annotation_mode=annotation_mode,
+            annotated_image_url=f"/api/v1/annotations/{job_id}/image",
+            spec=spec,
+            warnings=spec.warnings,
+        )
 
 
 @app.get("/api/v1/annotations/{job_id}/image")
-def get_annotation_image(job_id: str) -> FileResponse:
-    rendered_path = storage.get_rendered_path(job_id)
-    if not rendered_path.exists():
+def get_annotation_image(job_id: str) -> Response:
+    repository = get_repository()
+    bundle = repository.get_annotation_job_with_assets(job_id)
+    if not bundle or not bundle["rendered_assets"]:
         raise HTTPException(status_code=404, detail="Rendered image not found")
-    return FileResponse(Path(rendered_path), media_type="image/jpeg")
+    rendered_asset = bundle["rendered_assets"][0]
+    data, content_type = get_image_storage_for_asset(rendered_asset).get_file_from_asset(rendered_asset)
+    return Response(content=data, media_type=content_type)
 
 
 @app.get("/api/v1/field-references/approved", response_model=list[ApprovedFieldReferenceSummary])

@@ -10,6 +10,11 @@ from uuid import uuid4
 
 from app.db.mongo import get_mongo_database
 from app.schemas import JobStatus, ReviewEventType
+from app.storage import get_image_storage_for_asset
+
+
+BACKEND_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_METADATA_ROOT = BACKEND_ROOT / "storage" / "metadata"
 
 
 COLLECTIONS = [
@@ -37,9 +42,54 @@ def _json_default(value: Any) -> Any:
     return str(value)
 
 
+def _field_reference_document(
+    bundle: dict[str, Any],
+    job_id: str,
+    reviewer_id: str,
+    notes: Optional[str],
+    timestamp_key: str,
+) -> dict[str, Any]:
+    job = bundle["job"]
+    rendered_asset = bundle["rendered_assets"][0]
+    document = {
+        "_id": job_id,
+        "job_id": job_id,
+        "annotation_mode": job["annotation_mode"],
+        "project_id": job.get("project_id"),
+        "wall_id": job.get("wall_id"),
+        "reviewer_id": reviewer_id,
+        "notes": notes,
+        "content_type": rendered_asset.get("content_type", "image/jpeg"),
+        "storage_backend": rendered_asset.get("storage_backend"),
+        timestamp_key: _now(),
+    }
+
+    if rendered_asset.get("storage_backend") == "gridfs":
+        document["gridfs_file_id"] = rendered_asset["gridfs_file_id"]
+    elif rendered_asset.get("storage_backend") == "local":
+        document["local_path"] = rendered_asset["local_path"]
+    else:
+        raise KeyError(f"Unsupported rendered asset storage backend: {rendered_asset.get('storage_backend')}")
+    return document
+
+
+def _strip_image_storage_fields(document: dict[str, Any]) -> dict[str, Any]:
+    stripped = dict(document)
+    stripped.pop("image_data_base64", None)
+    stripped.pop("gridfs_file_id", None)
+    stripped.pop("local_path", None)
+    return stripped
+
+
+def _reference_image(document: dict[str, Any]) -> tuple[bytes, str]:
+    if document.get("image_data_base64"):
+        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
+    return get_image_storage_for_asset(document).get_file_from_asset(document)
+
+
 class LocalJsonRepository:
     def __init__(self, root: str | Path | None = None) -> None:
-        self.root = Path(root or os.getenv("METADATA_STORAGE_ROOT", "backend/storage/metadata"))
+        self.root = Path(root or os.getenv("METADATA_STORAGE_ROOT", DEFAULT_METADATA_ROOT)).expanduser().resolve()
         for collection in COLLECTIONS:
             (self.root / collection).mkdir(parents=True, exist_ok=True)
 
@@ -84,22 +134,7 @@ class LocalJsonRepository:
         if not bundle or not bundle["rendered_assets"]:
             raise KeyError(job_id)
 
-        job = bundle["job"]
-        rendered_asset = bundle["rendered_assets"][0]
-        rendered_path = Path(rendered_asset["local_path"])
-        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
-        document = {
-            "_id": job_id,
-            "job_id": job_id,
-            "annotation_mode": job["annotation_mode"],
-            "project_id": job.get("project_id"),
-            "wall_id": job.get("wall_id"),
-            "reviewer_id": reviewer_id,
-            "notes": notes,
-            "content_type": rendered_asset.get("content_type", "image/jpeg"),
-            "image_data_base64": image_data_base64,
-            "approved_at": _now(),
-        }
+        document = _field_reference_document(bundle, job_id, reviewer_id, notes, "approved_at")
         path = self.root / "approved_field_references" / f"{job_id}.json"
         path.write_text(json.dumps(document, indent=2, default=_json_default))
         return document
@@ -108,37 +143,21 @@ class LocalJsonRepository:
         documents = []
         for path in (self.root / "approved_field_references").glob("*.json"):
             document = json.loads(path.read_text())
-            document.pop("image_data_base64", None)
-            documents.append(document)
+            documents.append(_strip_image_storage_fields(document))
         return sorted(documents, key=lambda item: item.get("approved_at", ""), reverse=True)
 
     def get_approved_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
         document = self._read("approved_field_references", reference_id)
         if not document:
             return None
-        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
+        return _reference_image(document)
 
     def save_rejected_field_reference(self, job_id: str, reviewer_id: str, notes: Optional[str]) -> dict[str, Any]:
         bundle = self.get_annotation_job_with_assets(job_id)
         if not bundle or not bundle["rendered_assets"]:
             raise KeyError(job_id)
 
-        job = bundle["job"]
-        rendered_asset = bundle["rendered_assets"][0]
-        rendered_path = Path(rendered_asset["local_path"])
-        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
-        document = {
-            "_id": job_id,
-            "job_id": job_id,
-            "annotation_mode": job["annotation_mode"],
-            "project_id": job.get("project_id"),
-            "wall_id": job.get("wall_id"),
-            "reviewer_id": reviewer_id,
-            "notes": notes,
-            "content_type": rendered_asset.get("content_type", "image/jpeg"),
-            "image_data_base64": image_data_base64,
-            "rejected_at": _now(),
-        }
+        document = _field_reference_document(bundle, job_id, reviewer_id, notes, "rejected_at")
         path = self.root / "rejected_field_references" / f"{job_id}.json"
         path.write_text(json.dumps(document, indent=2, default=_json_default))
         return document
@@ -147,15 +166,14 @@ class LocalJsonRepository:
         documents = []
         for path in (self.root / "rejected_field_references").glob("*.json"):
             document = json.loads(path.read_text())
-            document.pop("image_data_base64", None)
-            documents.append(document)
+            documents.append(_strip_image_storage_fields(document))
         return sorted(documents, key=lambda item: item.get("rejected_at", ""), reverse=True)
 
     def get_rejected_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
         document = self._read("rejected_field_references", reference_id)
         if not document:
             return None
-        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
+        return _reference_image(document)
 
     def _insert(self, collection: str, document: dict[str, Any]) -> dict[str, Any]:
         stored = dict(document)
@@ -221,76 +239,42 @@ class MongoRepository:
         if not bundle or not bundle["rendered_assets"]:
             raise KeyError(job_id)
 
-        job = bundle["job"]
-        rendered_asset = bundle["rendered_assets"][0]
-        rendered_path = Path(rendered_asset["local_path"])
-        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
-        document = {
-            "_id": job_id,
-            "job_id": job_id,
-            "annotation_mode": job["annotation_mode"],
-            "project_id": job.get("project_id"),
-            "wall_id": job.get("wall_id"),
-            "reviewer_id": reviewer_id,
-            "notes": notes,
-            "content_type": rendered_asset.get("content_type", "image/jpeg"),
-            "image_data_base64": image_data_base64,
-            "approved_at": _now(),
-        }
+        document = _field_reference_document(bundle, job_id, reviewer_id, notes, "approved_at")
         self.db.approved_field_references.replace_one({"_id": job_id}, document, upsert=True)
         return document
 
     def list_approved_field_references(self) -> list[dict[str, Any]]:
-        return list(
-            self.db.approved_field_references.find(
-                {},
-                {"image_data_base64": 0},
-            ).sort("approved_at", -1)
-        )
+        return [
+            _strip_image_storage_fields(document)
+            for document in self.db.approved_field_references.find({}).sort("approved_at", -1)
+        ]
 
     def get_approved_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
         document = self.db.approved_field_references.find_one({"_id": reference_id})
         if not document:
             return None
-        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
+        return _reference_image(document)
 
     def save_rejected_field_reference(self, job_id: str, reviewer_id: str, notes: Optional[str]) -> dict[str, Any]:
         bundle = self.get_annotation_job_with_assets(job_id)
         if not bundle or not bundle["rendered_assets"]:
             raise KeyError(job_id)
 
-        job = bundle["job"]
-        rendered_asset = bundle["rendered_assets"][0]
-        rendered_path = Path(rendered_asset["local_path"])
-        image_data_base64 = base64.b64encode(rendered_path.read_bytes()).decode("ascii")
-        document = {
-            "_id": job_id,
-            "job_id": job_id,
-            "annotation_mode": job["annotation_mode"],
-            "project_id": job.get("project_id"),
-            "wall_id": job.get("wall_id"),
-            "reviewer_id": reviewer_id,
-            "notes": notes,
-            "content_type": rendered_asset.get("content_type", "image/jpeg"),
-            "image_data_base64": image_data_base64,
-            "rejected_at": _now(),
-        }
+        document = _field_reference_document(bundle, job_id, reviewer_id, notes, "rejected_at")
         self.db.rejected_field_references.replace_one({"_id": job_id}, document, upsert=True)
         return document
 
     def list_rejected_field_references(self) -> list[dict[str, Any]]:
-        return list(
-            self.db.rejected_field_references.find(
-                {},
-                {"image_data_base64": 0},
-            ).sort("rejected_at", -1)
-        )
+        return [
+            _strip_image_storage_fields(document)
+            for document in self.db.rejected_field_references.find({}).sort("rejected_at", -1)
+        ]
 
     def get_rejected_field_reference_image(self, reference_id: str) -> Optional[tuple[bytes, str]]:
         document = self.db.rejected_field_references.find_one({"_id": reference_id})
         if not document:
             return None
-        return base64.b64decode(document["image_data_base64"]), document.get("content_type", "image/jpeg")
+        return _reference_image(document)
 
     def _insert(self, collection: str, document: dict[str, Any]) -> dict[str, Any]:
         stored = dict(document)
@@ -301,6 +285,9 @@ class MongoRepository:
 
 
 def get_repository() -> LocalJsonRepository | MongoRepository:
-    if os.getenv("PERSISTENCE_BACKEND", "local").lower() == "mongo":
+    selected = os.getenv("PERSISTENCE_BACKEND", "mongo").lower()
+    if selected == "mongo":
         return MongoRepository()
-    return LocalJsonRepository()
+    if selected == "local":
+        return LocalJsonRepository()
+    raise RuntimeError(f"Unsupported PERSISTENCE_BACKEND: {selected}")

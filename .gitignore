@@ -1,6 +1,11 @@
 .DS_Store
-backend/node_modules/
 backend/.env
 backend/.env.local
+backend/.venv/
+backend/storage/
+backend/backend/storage/
+__pycache__/
+*.pyc
+*.xcodeproj/xcuserdata/
 *.xcuserstate
 DerivedData/

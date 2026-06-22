@@ -152,7 +152,7 @@ def get_model_client(provider: Optional[str] = None) -> ModelClient:
 
 
 def get_model_provider_name(provider: Optional[str] = None) -> str:
-    return (provider or os.getenv("MODEL_PROVIDER", "mock")).lower()
+    return (provider or os.getenv("MODEL_PROVIDER", "openinfer")).lower()
 
 
 def parse_annotation_spec_json(output_text: str) -> AnnotationSpec:
