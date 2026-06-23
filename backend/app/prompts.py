@@ -105,8 +105,11 @@ For this request, annotation_mode must be "electrical_lines".
 Electrical rules:
 - Use the visible framed wall area.
 - Keep proposed cable routes and outlet boxes inside the visible work area.
-- Include one proposed horizontal cable route in electrical_lines.
+- Place outlet_boxes first, then route electrical_lines through the outlet_box centers from left to right.
+- Include one proposed cable route in electrical_lines that uses the same center coordinates as the outlet_boxes when outlet_boxes are present.
+- Do not place the cable route on the wall midpoint unless the outlet_box centers are also on that midpoint.
 - Include four outlet_boxes labeled E-1, E-2, E-3, and E-4 when reasonable.
+- If calibration stud centerlines are provided, prefer outlet_box centers that align with those visible or calibrated stud centerlines.
 - Include a label saying PROPOSED CABLE ROUTE.
 - Include a warning_badge saying VERIFY BEFORE INSTALLATION.
 - Include a warning saying this is field markup only and not code approval."""

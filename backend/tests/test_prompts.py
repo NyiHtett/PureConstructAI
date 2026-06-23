@@ -19,3 +19,16 @@ def test_system_prompt_changes_by_annotation_mode() -> None:
     assert '"electrical_lines": []' in electrical
     assert '"outlet_boxes": []' in electrical
     assert '"warning_badges": []' in electrical
+
+
+def test_electrical_prompt_routes_through_outlet_centers_only_for_electrical_mode() -> None:
+    electrical = get_system_prompt(AnnotationMode.electrical_lines)
+    other_prompts = [
+        get_system_prompt(AnnotationMode.stud_locations),
+        get_system_prompt(AnnotationMode.flooring_pattern),
+        get_system_prompt(AnnotationMode.field_notes),
+    ]
+
+    assert "route electrical_lines through the outlet_box centers from left to right" in electrical
+    assert "Do not place the cable route on the wall midpoint" in electrical
+    assert all("route electrical_lines through the outlet_box centers from left to right" not in prompt for prompt in other_prompts)
