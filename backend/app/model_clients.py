@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import os
+import time
 from pathlib import Path
 from typing import Optional, Protocol
 
@@ -12,6 +14,9 @@ import httpx
 from app.mock_specs import build_mock_annotation_spec
 from app.prompts import build_user_prompt, get_system_prompt
 from app.schemas import AnnotationMode, AnnotationSpec, CalibrationPayload, WarningBadgeItem, NormalizedPoint
+
+
+logger = logging.getLogger("uvicorn.error")
 
 
 class ModelClientError(Exception):
@@ -89,6 +94,14 @@ class OpenInferModelClient:
         if image is None:
             raise ModelClientError(f"Could not read image for model request: {image_path}")
         height, width = image.shape[:2]
+        logger.info(
+            "openinfer request preparing model=%s mode=%s image_width=%s image_height=%s timeout=%.1fs",
+            self.model,
+            annotation_mode.value,
+            width,
+            height,
+            self.timeout,
+        )
 
         request_body = {
             "model": self.model,
@@ -109,6 +122,7 @@ class OpenInferModelClient:
         }
 
         try:
+            started_at = time.perf_counter()
             with httpx.Client(timeout=self.timeout) as client:
                 with client.stream(
                     "POST",
@@ -117,13 +131,34 @@ class OpenInferModelClient:
                     json=request_body,
                 ) as response:
                     request_id = response.headers.get("x-request-id")
+                    logger.info(
+                        "openinfer response headers received status=%s request_id=%s elapsed=%.2fs",
+                        response.status_code,
+                        request_id,
+                        time.perf_counter() - started_at,
+                    )
                     if response.status_code >= 400:
                         body = response.read().decode("utf-8", errors="replace")
+                        logger.error(
+                            "openinfer request failed status=%s request_id=%s body=%s",
+                            response.status_code,
+                            request_id,
+                            body,
+                        )
                         raise ModelClientError(
                             f"OpenInfer request failed: status={response.status_code} request_id={request_id} body={body}"
                         )
                     output_text = _read_sse_text(response)
+                    logger.info(
+                        "openinfer stream completed request_id=%s elapsed=%.2fs output_chars=%s",
+                        request_id,
+                        time.perf_counter() - started_at,
+                        len(output_text),
+                    )
+                    if _should_log_model_output():
+                        logger.info("openinfer raw output request_id=%s:\n%s", request_id, output_text)
         except httpx.HTTPError as exc:
+            logger.exception("openinfer request errored: %s", exc)
             raise ModelClientError(f"OpenInfer request failed: {exc}") from exc
 
         return parse_annotation_spec_json(output_text)
@@ -164,9 +199,15 @@ def parse_annotation_spec_json(output_text: str) -> AnnotationSpec:
     try:
         parsed = json.loads(trimmed[json_start : json_end + 1])
         parsed = _normalize_model_spec(parsed)
+        if _should_log_model_output():
+            logger.info("openinfer parsed annotation spec:\n%s", json.dumps(parsed, indent=2, sort_keys=True))
         return AnnotationSpec.model_validate(parsed)
     except (json.JSONDecodeError, ValueError) as exc:
         raise ModelClientError(f"Model returned invalid AnnotationSpec JSON: {exc}") from exc
+
+
+def _should_log_model_output() -> bool:
+    return os.getenv("LOG_MODEL_OUTPUT", "").strip().lower() in {"1", "true", "yes", "on"}
 
 
 def _normalize_model_spec(parsed: object) -> object:

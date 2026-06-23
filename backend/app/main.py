@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import tempfile
+import logging
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -27,6 +29,7 @@ from app.storage import get_image_storage, get_image_storage_for_asset
 
 
 app = FastAPI(title="PureConstruct Annotation Renderer")
+logger = logging.getLogger("uvicorn.error")
 
 
 @app.post("/api/v1/annotations", response_model=AnnotationResponse)
@@ -42,23 +45,44 @@ async def create_annotation(
     job_id = image_storage.new_job_id()
     repository = get_repository()
     content_type = image.content_type or "image/jpeg"
+    started_at = time.perf_counter()
+    logger.info(
+        "annotation job=%s received mode=%s filename=%s content_type=%s project_id=%s wall_id=%s",
+        job_id,
+        annotation_mode.value,
+        image.filename,
+        content_type,
+        project_id,
+        wall_id,
+    )
 
     with tempfile.TemporaryDirectory(prefix="pureconstruct-annotation-") as temp_dir:
         original_path = Path(temp_dir) / f"{job_id}-original.jpg"
         rendered_path = Path(temp_dir) / f"{job_id}-rendered.jpg"
         original_path.write_bytes(await image.read())
+        logger.info("annotation job=%s uploaded image saved to temporary file", job_id)
 
         original_image = cv2.imread(str(original_path))
         if original_image is None:
+            logger.warning("annotation job=%s uploaded file is not a readable image", job_id)
             raise HTTPException(status_code=400, detail="Uploaded file is not a readable image")
         image_height, image_width = original_image.shape[:2]
+        logger.info("annotation job=%s image decoded width=%s height=%s", job_id, image_width, image_height)
 
         try:
             calibration = parse_calibration_json(calibration_json)
         except ValueError as exc:
+            logger.warning("annotation job=%s invalid calibration payload: %s", job_id, exc)
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+        logger.info("annotation job=%s calibration parsed has_calibration=%s", job_id, calibration is not None)
 
         try:
+            model_started_at = time.perf_counter()
+            logger.info(
+                "annotation job=%s model request started provider=%s",
+                job_id,
+                get_model_provider_name(),
+            )
             raw_spec = get_model_client().generate_annotation_spec(
                 str(original_path),
                 annotation_mode,
@@ -66,14 +90,36 @@ async def create_annotation(
                 notes,
             )
         except ModelClientError as exc:
+            logger.exception("annotation job=%s model request failed: %s", job_id, exc)
             raise HTTPException(status_code=502, detail=str(exc)) from exc
+        logger.info(
+            "annotation job=%s model request completed duration=%.2fs",
+            job_id,
+            time.perf_counter() - model_started_at,
+        )
 
+        render_started_at = time.perf_counter()
         spec = snap_annotation_spec(raw_spec, calibration, annotation_mode)
         render_annotation(str(original_path), spec, str(rendered_path))
+        logger.info(
+            "annotation job=%s OpenCV render completed duration=%.2fs warnings=%s",
+            job_id,
+            time.perf_counter() - render_started_at,
+            len(spec.warnings),
+        )
 
+        storage_started_at = time.perf_counter()
         original_storage = image_storage.persist_original_file(original_path, job_id, content_type)
         rendered_storage = image_storage.persist_rendered_file(rendered_path, job_id, "image/jpeg")
+        logger.info(
+            "annotation job=%s image storage completed duration=%.2fs original_backend=%s rendered_backend=%s",
+            job_id,
+            time.perf_counter() - storage_started_at,
+            original_storage.get("storage_backend"),
+            rendered_storage.get("storage_backend"),
+        )
 
+        metadata_started_at = time.perf_counter()
         image_asset = repository.create_image_asset(
             {
                 "_id": f"{job_id}-original",
@@ -130,6 +176,12 @@ async def create_annotation(
                 "annotation_job_id": job_id,
                 **rendered_storage,
             }
+        )
+        logger.info(
+            "annotation job=%s metadata saved duration=%.2fs total_duration=%.2fs",
+            job_id,
+            time.perf_counter() - metadata_started_at,
+            time.perf_counter() - started_at,
         )
 
         return AnnotationResponse(

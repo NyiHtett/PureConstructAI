@@ -69,6 +69,27 @@ def test_electrical_boxes_remain_inside_image_bounds() -> None:
         assert 0.0 <= box.center.y <= 1.0
 
 
+def test_electrical_route_is_not_replaced_by_wall_midline() -> None:
+    spec = build_mock_annotation_spec(AnnotationMode.electrical_lines)
+    spec.outlet_boxes = []
+    original_points = [(point.x, point.y) for point in spec.electrical_lines[0].points]
+
+    snapped = snap_annotation_spec(spec, _calibration(), AnnotationMode.electrical_lines)
+
+    assert [(point.x, point.y) for point in snapped.electrical_lines[0].points] == original_points
+
+
+def test_electrical_route_follows_final_outlet_centers() -> None:
+    spec = build_mock_annotation_spec(AnnotationMode.electrical_lines)
+
+    snapped = snap_annotation_spec(spec, _calibration(), AnnotationMode.electrical_lines)
+
+    expected_points = [
+        (box.center.x, box.center.y) for box in sorted(snapped.outlet_boxes, key=lambda box: box.center.x)
+    ]
+    assert [(point.x, point.y) for point in snapped.electrical_lines[0].points] == expected_points
+
+
 def test_flooring_mode_warns_when_floor_plane_missing() -> None:
     calibration = _calibration()
     calibration.floor_plane_norm = None
